@@ -1,4 +1,4 @@
-import { Person } from "./Person";
+import { Person } from "../../models/Person";
 
 export class Note {
     public id?: number;

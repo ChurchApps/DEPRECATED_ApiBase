@@ -2,7 +2,7 @@ import { controller, httpPost, httpGet, interfaces, requestParam, httpDelete } f
 import express from "express";
 import { CustomBaseController } from "./CustomBaseController"
 import { ErrorLog } from "../models"
-import { AuthenticatedUser } from "../auth";
+import { AuthenticatedUser } from "../../auth";
 
 @controller("/errors")
 export class ErrorController extends CustomBaseController {

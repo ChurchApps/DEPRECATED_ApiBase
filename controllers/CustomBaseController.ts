@@ -1,11 +1,11 @@
 import { inject } from "inversify";
 import { BaseHttpController } from "inversify-express-utils";
-import { TYPES } from "../constants";
+import { TYPES } from "../../constants";
 import { Repositories } from "../repositories";
 import express from "express";
-import { WinstonLogger } from "../helpers/Logger";
-import { StaticLogger } from "../helpers/StaticLogger";
-import { AuthenticatedUser } from '../auth'
+import { WinstonLogger } from "../../helpers/Logger";
+import { StaticLogger } from "../../helpers/StaticLogger";
+import { AuthenticatedUser } from '../../auth'
 
 
 export class CustomBaseController extends BaseHttpController {

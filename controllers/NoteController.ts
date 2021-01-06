@@ -2,7 +2,7 @@ import { controller, httpPost, httpGet, interfaces, requestParam, httpDelete } f
 import express from "express";
 import { CustomBaseController } from "./CustomBaseController"
 import { Note } from "../models"
-import { PersonHelper } from "../helpers";
+import { PersonHelper } from "../../helpers";
 
 @controller("/notes")
 export class NoteController extends CustomBaseController {
