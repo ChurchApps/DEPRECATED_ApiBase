@@ -10,12 +10,12 @@ import { AuthenticatedUser } from '../../auth'
 
 export class CustomBaseController extends BaseHttpController {
 
-    public repositories: Repositories;
+    public baseRepositories: Repositories;
     public logger: WinstonLogger;
 
-    constructor(@inject(TYPES.Repositories) repositories: Repositories, @inject(TYPES.LoggerService) logger: WinstonLogger) {
+    constructor(@inject(TYPES.LoggerService) logger: WinstonLogger) {
         super()
-        this.repositories = repositories;
+        this.baseRepositories = new Repositories();
         this.logger = logger;
     }
 

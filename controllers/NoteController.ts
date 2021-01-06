@@ -11,7 +11,7 @@ export class NoteController extends CustomBaseController {
     public async get(@requestParam("id") id: number, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess("People", "View Notes")) return this.json({}, 401);
-            else return this.repositories.note.convertToModel(au.churchId, await this.repositories.note.load(au.churchId, id));
+            else return this.baseRepositories.note.convertToModel(au.churchId, await this.baseRepositories.note.load(au.churchId, id));
         });
     }
 
@@ -19,8 +19,8 @@ export class NoteController extends CustomBaseController {
     public async getForContent(@requestParam("contentType") contentType: string, @requestParam("contentId") contentId: number, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess("People", "View Notes")) return this.json({}, 401);
-            else return await this.repositories.note.loadForContent(au.churchId, contentType, contentId).then(data => {
-                return this.repositories.note.convertAllToModel(au.churchId, data)
+            else return await this.baseRepositories.note.loadForContent(au.churchId, contentType, contentId).then(data => {
+                return this.baseRepositories.note.convertAllToModel(au.churchId, data)
             });
         });
     }
@@ -29,7 +29,7 @@ export class NoteController extends CustomBaseController {
     public async getAll(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess("People", "View Notes")) return this.json({}, 401);
-            else return this.repositories.note.convertAllToModel(au.churchId, await this.repositories.note.loadAll(au.churchId));
+            else return this.baseRepositories.note.convertAllToModel(au.churchId, await this.baseRepositories.note.loadAll(au.churchId));
         });
     }
 
@@ -39,9 +39,9 @@ export class NoteController extends CustomBaseController {
             if (!au.checkAccess("People", "Edit Notes")) return this.json({}, 401);
             else {
                 const promises: Promise<Note>[] = [];
-                req.body.forEach(note => { note.churchId = au.churchId; note.addedBy = au.id; promises.push(this.repositories.note.save(note)); });
+                req.body.forEach(note => { note.churchId = au.churchId; note.addedBy = au.id; promises.push(this.baseRepositories.note.save(note)); });
                 const result = await Promise.all(promises);
-                return this.repositories.note.convertAllToModel(au.churchId, result);
+                return this.baseRepositories.note.convertAllToModel(au.churchId, result);
             }
         });
     }
@@ -50,7 +50,7 @@ export class NoteController extends CustomBaseController {
     public async delete(@requestParam("id") id: number, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess("People", "Edit Notes")) return this.json({}, 401);
-            else await this.repositories.note.delete(au.churchId, id);
+            else await this.baseRepositories.note.delete(au.churchId, id);
         });
     }
 
