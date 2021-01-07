@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import { DB } from "../../db";
 import { FormSubmission } from "../models";
-import { DateTimeHelper } from '../../helpers'
+import { DateTimeHelper } from '../helpers'
 
 @injectable()
 export class FormSubmissionRepository {
