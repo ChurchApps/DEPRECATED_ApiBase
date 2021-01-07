@@ -1,22 +1,19 @@
-import { inject } from "inversify";
 import { BaseHttpController } from "inversify-express-utils";
-import { TYPES } from "../../constants";
 import { Repositories } from "../repositories";
 import express from "express";
-import { WinstonLogger } from "../../helpers/Logger";
-import { StaticLogger } from "../../helpers/StaticLogger";
+import { LoggingHelper } from "../helpers/LoggingHelper";
 import { AuthenticatedUser } from '../../auth'
 
 
 export class CustomBaseController extends BaseHttpController {
 
     public baseRepositories: Repositories;
-    public logger: WinstonLogger;
+    public logger: LoggingHelper;
 
-    constructor(@inject(TYPES.LoggerService) logger: WinstonLogger) {
+    constructor() {
         super()
         this.baseRepositories = new Repositories();
-        this.logger = logger;
+        this.logger = LoggingHelper.getCurrent();
     }
 
     public error(errors: string[]) {
@@ -43,7 +40,6 @@ export class CustomBaseController extends BaseHttpController {
 
     public async actionWrapper(req: express.Request, res: express.Response, fetchFunction: (au: AuthenticatedUser) => any): Promise<any> {
         try {
-            StaticLogger.current = this.logger;
             const result = await fetchFunction(this.authUser());
             await this.logger.flush();
             return result;
