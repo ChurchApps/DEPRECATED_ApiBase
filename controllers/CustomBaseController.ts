@@ -12,7 +12,7 @@ export class CustomBaseController extends BaseHttpController {
 
     constructor() {
         super()
-        this.baseRepositories = new Repositories();
+        this.baseRepositories = Repositories.getCurrent();
         this.logger = LoggingHelper.getCurrent();
     }
 
