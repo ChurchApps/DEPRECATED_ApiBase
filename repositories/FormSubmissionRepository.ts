@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import { DB } from "../../db";
+import { DB } from "../db";
 import { FormSubmission } from "../models";
 import { DateTimeHelper } from '../helpers'
 
