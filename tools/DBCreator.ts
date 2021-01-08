@@ -24,7 +24,7 @@ export class DBCreator {
             });
         });
 
-        for (let i = 0; i < todo.length; i++) await this.runScript(todo[i].title, todo[i].file);
+        for (const td of todo) await this.runScript(td.title, td.file);
         return;
     }
 
