@@ -24,13 +24,13 @@ export class DBCreator {
             });
         });
 
-        for (const td of todo) await this.runScript(td.title, td.file);
+        for (const td of todo) await this.runScript(td.title, "./src/apiBase/tools/dbScripts/" + td.file);
         return;
     }
 
-    private static async runScript(title: string, file: string) {
+    public static async runScript(title: string, file: string) {
         console.log("Creating '" + title + "'");
-        const sql = await fs.readFile('./src/apiBase/tools/dbScripts/' + file, { encoding: "UTF-8" });
+        const sql = await fs.readFile(file, { encoding: "UTF-8" });
         const statements = sql.split(/;\s*$/m);
         for (const statement of statements) if (statement.length > 3) await DB.query(statement, []);
     }
