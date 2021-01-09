@@ -8,13 +8,13 @@ export class PageRepository {
     }
 
     public async create(page: Page) {
-        const query = "INSERT INTO pages (churchId, name, content, lastUpdated) VALUES (?, ?, ?, NOW());";
+        const query = "INSERT INTO pages (churchId, name, content, lastModified) VALUES (?, ?, ?, NOW());";
         const params = [page.churchId, page.name, page.content];
         return DB.query(query, params).then((row: any) => { page.id = row.insertId; return page; });
     }
 
     public async update(page: Page) {
-        const query = "UPDATE pages SET name=?, content=?, lastUpdated=NOW() WHERE id=? AND churchId=?;";
+        const query = "UPDATE pages SET name=?, content=?, lastModified=NOW() WHERE id=? AND churchId=?;";
         const params = [page.name, page.content, page.id, page.churchId];
         return DB.query(query, params).then(() => { return page });
     }

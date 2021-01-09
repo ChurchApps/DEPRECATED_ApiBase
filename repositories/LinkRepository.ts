@@ -16,10 +16,10 @@ export class LinkRepository {
     }
 
     public async create(link: Link) {
-        return DB.query(
-            "INSERT INTO links (churchId, category, url, linkType, linkData, icon, text, sort) VALUES (?, ?, ?, ?, ?, ?, ?);",
-            [link.churchId, link.category, link.url, link.linkType, link.linkData, link.icon, link.text, link.sort]
-        ).then((row: any) => { link.id = row.insertId; return link; });
+        const query = "INSERT INTO links (churchId, category, url, linkType, linkData, icon, text, sort) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+        const params = [link.churchId, link.category, link.url, link.linkType, link.linkData, link.icon, link.text, link.sort];
+        console.log(JSON.stringify(params));
+        return DB.query(query, params).then((row: any) => { link.id = row.insertId; return link; });
     }
 
     public async delete(id: number, churchId: number) {
