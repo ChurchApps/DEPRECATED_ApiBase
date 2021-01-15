@@ -31,7 +31,7 @@ export class DBCreator {
     public static async runScript(title: string, file: string, customDelimeter: boolean) {
         console.log("Creating '" + title + "'");
         const sql = await fs.readFile(file, { encoding: "UTF-8" });
-        var del = /;(?=END)\s*$|;(?!\nEND)\s*$/gm;
+        let del = /;(?=END)\s*$|;(?!\nEND)\s*$/gm;
         if (customDelimeter) {
             del = /\$\$$/gm;
         }
