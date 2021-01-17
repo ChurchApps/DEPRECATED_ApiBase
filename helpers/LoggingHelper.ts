@@ -51,8 +51,6 @@ export class LoggingHelper {
         if (process.env.API_ENV === "staging") this.logDestination = "cloudwatch";
         else if (process.env.API_ENV === "prod") this.logDestination = "cloudwatch";
 
-        this.logDestination = "cloudwatch";
-
         if (this.logDestination === "cloudwatch") {
             this.wc = new WinstonCloudWatch({ logGroupName: this.logGroupName, logStreamName: streamName });
             this._logger = winston.createLogger({ transports: [this.wc], format: winston.format.json() });
@@ -63,11 +61,13 @@ export class LoggingHelper {
     public flush() {
         const promise = new Promise((resolve) => {
             if (this.pendingMessages) {
-                this.wc.kthxbye(() => {
-                    // this._logger = null;
-                    this.pendingMessages = false;
-                    resolve(null);
-                });
+                if (this.wc) {
+                    this.wc.kthxbye(() => {
+                        // this._logger = null;
+                        this.pendingMessages = false;
+                    });
+                }
+                resolve(null);
             } else resolve(null);
         });
         return promise;
