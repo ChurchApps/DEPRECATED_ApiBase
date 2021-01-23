@@ -28,7 +28,10 @@ export class DB {
             const result: any[] = await new Promise((resolve, reject) => {
                 connection.query(sql, params, async (ex, rows) => {
                     if (ex) { LoggingHelper.getCurrent().error(ex); reject(ex); }
-                    else { LoggingHelper.getCurrent().info(rows); resolve(rows); }
+                    else {
+                        // LoggingHelper.getCurrent().info(rows);
+                        resolve(rows);
+                    }
                 });
 
             });
