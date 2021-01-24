@@ -6,5 +6,6 @@ CREATE TABLE `pages` (
   `name` varchar(255) DEFAULT NULL,
   `content` text,
   `lastModified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `churchId` (`churchId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

@@ -9,5 +9,6 @@ CREATE TABLE `notes` (
   `addedBy` int(11) DEFAULT NULL,
   `dateAdded` datetime DEFAULT NULL,
   `contents` text,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `churchId` (`churchId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;

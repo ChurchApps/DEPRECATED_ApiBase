@@ -6,5 +6,8 @@ CREATE TABLE `answers` (
   `formSubmissionId` int(11) DEFAULT NULL,
   `questionId` int(11) DEFAULT NULL,
   `value` varchar(5000) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `churchId` (`churchId`),
+  KEY `formSubmissionId` (`formSubmissionId`),
+  KEY `questionId` (`questionId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
