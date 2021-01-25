@@ -11,6 +11,7 @@ export class DBCreator {
         { title: "Links", file: "links.mysql" },
         { title: "Notes", file: "notes.mysql" },
         { title: "Pages", file: "pages.mysql" },
+        { title: "Settings", file: "settings.mysql" },
         { title: "Questions", file: "questions.mysql" }
     ]
 

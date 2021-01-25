@@ -6,3 +6,4 @@ export { FormSubmission } from './FormSubmission';
 export { Note } from './Note';
 export { Page } from './Page';
 export { Question } from './Question';
+export { Setting } from './Setting';

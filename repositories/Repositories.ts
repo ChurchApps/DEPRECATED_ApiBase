@@ -1,4 +1,5 @@
 import { AnswerRepository, FormRepository, FormSubmissionRepository, LinkRepository, NoteRepository, PageRepository, QuestionRepository } from ".";
+import { SettingRepository } from "./SettingRepository";
 
 export class Repositories {
   public answer: AnswerRepository;
@@ -8,6 +9,7 @@ export class Repositories {
   public note: NoteRepository;
   public question: QuestionRepository;
   public page: PageRepository;
+  public setting: SettingRepository;
 
 
   private static _current: Repositories = null;
@@ -25,5 +27,6 @@ export class Repositories {
     this.note = new NoteRepository();
     this.question = new QuestionRepository();
     this.page = new PageRepository();
+    this.setting = new SettingRepository();
   }
 }

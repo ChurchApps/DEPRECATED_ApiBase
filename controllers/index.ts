@@ -6,3 +6,4 @@ export { LinkController } from "./LinkController";
 export { NoteController } from "./NoteController";
 export { PageController } from "./PageController";
 export { QuestionController } from "./QuestionController";
+export { SettingController } from "./SettingController";
