@@ -1,19 +1,19 @@
 export class Permissions {
-    static forms: {
+    static forms = {
         view: { contentType: "Forms", action: "View" },
         edit: { contentType: "Forms", action: "Edit" }
     };
-    static links: {
+    static links = {
         edit: { contentType: "Links", action: "Edit" }
     };
-    static notes: {
+    static notes = {
         view: { contentType: "Notes", action: "View" },
         edit: { contentType: "Notes", action: "Edit" }
     };
-    static pages: {
+    static pages = {
         edit: { contentType: "Pages", action: "Edit" }
     };
-    static settings: {
+    static settings = {
         edit: { contentType: "Settings", action: "Edit" }
     };
 }
