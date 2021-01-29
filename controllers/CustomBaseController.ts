@@ -2,7 +2,7 @@ import { BaseHttpController } from "inversify-express-utils";
 import { Repositories } from "../repositories";
 import express from "express";
 import { LoggingHelper } from "../helpers/LoggingHelper";
-import { AuthenticatedUser } from '../auth'
+import { AuthenticatedUser } from "../auth"
 
 
 export class CustomBaseController extends BaseHttpController {
@@ -32,7 +32,7 @@ export class CustomBaseController extends BaseHttpController {
         let result = false;
         if (req.query.include !== undefined) {
             const value: string = req.query.include as string;
-            const items = value.split(',');
+            const items = value.split(",");
             if (items.indexOf(item) > -1) result = true;
         }
         return result;

@@ -1,6 +1,6 @@
-import { ContactInfo } from './tmpContactInfo'
-import { Name } from './tmpName'
-import { FormSubmission } from './FormSubmission';
+import { ContactInfo } from "./tmpContactInfo"
+import { Name } from "./tmpName"
+import { FormSubmission } from "./FormSubmission";
 
 export class Person {
     public id?: number;

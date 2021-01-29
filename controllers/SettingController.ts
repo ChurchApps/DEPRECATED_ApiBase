@@ -1,8 +1,8 @@
-import { controller, httpPost, httpGet, interfaces } from 'inversify-express-utils'
-import express from 'express'
-import { Setting } from '../models'
-import { CustomBaseController } from './CustomBaseController'
-import { Permissions } from '../helpers'
+import { controller, httpPost, httpGet, interfaces } from "inversify-express-utils"
+import express from "express"
+import { Setting } from "../models"
+import { CustomBaseController } from "./CustomBaseController"
+import { Permissions } from "../helpers"
 
 @controller("/settings")
 export class SettingController extends CustomBaseController {

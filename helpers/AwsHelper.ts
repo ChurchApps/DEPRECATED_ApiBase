@@ -1,5 +1,5 @@
-import AWS from 'aws-sdk'
-import { ByteBuffer } from 'aws-sdk/clients/cloudtrail';
+import AWS from "aws-sdk"
+import { ByteBuffer } from "aws-sdk/clients/cloudtrail";
 
 export class AwsHelper {
     private static _isConfigured = false;
@@ -19,12 +19,12 @@ export class AwsHelper {
 
     private static S3() {
         this.configure();
-        return new AWS.S3({ apiVersion: '2006-03-01' });
+        return new AWS.S3({ apiVersion: "2006-03-01" });
     }
 
     static S3Upload(key: string, contentType: string, contents: ByteBuffer): Promise<void> {
         return new Promise((resolve, reject) => {
-            const params: AWS.S3.PutObjectRequest = { Bucket: AwsHelper._s3Bucket, Key: key, Body: contents, ACL: 'public-read', ContentType: contentType }
+            const params: AWS.S3.PutObjectRequest = { Bucket: AwsHelper._s3Bucket, Key: key, Body: contents, ACL: "public-read", ContentType: contentType }
             this.S3().upload(params, (error: Error, data: AWS.S3.ManagedUpload.SendData) => {
                 if (error) reject(error);
                 else resolve();

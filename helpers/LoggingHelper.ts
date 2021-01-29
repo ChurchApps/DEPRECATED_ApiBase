@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 import "reflect-metadata";
 import winston from "winston";
 import WinstonCloudWatch from "winston-cloudwatch";
-import AWS from 'aws-sdk';
+import AWS from "aws-sdk";
 
 @injectable()
 export class LoggingHelper {
@@ -47,7 +47,7 @@ export class LoggingHelper {
 
     private init(streamName: string) {
         this.pendingMessages = false;
-        AWS.config.update({ region: 'us-east-2' });
+        AWS.config.update({ region: "us-east-2" });
         if (process.env.API_ENV === "staging") this.logDestination = "cloudwatch";
         else if (process.env.API_ENV === "prod") this.logDestination = "cloudwatch";
 

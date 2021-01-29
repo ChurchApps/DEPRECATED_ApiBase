@@ -1,9 +1,9 @@
 // Based on https://www.npmjs.com/package/omit-empty
 // The project appears to be abandoned, but needed modification to allow for empty arrays.
 
-'use strict';
+"use strict";
 
-import typeOf from 'kind-of';
+import typeOf from "kind-of";
 
 
 export class OmitEmpty {
@@ -15,7 +15,7 @@ export class OmitEmpty {
                 value = value.map(v => omit(v, opts)).filter(v => !OmitEmpty.isEmpty(v, opts));
             }
 
-            if (typeOf(value) === 'object') {
+            if (typeOf(value) === "object") {
                 const result: any = {};
                 for (const key of Object.keys(value)) {
                     if (!opts.excludedProperties.includes(key)) {
@@ -35,7 +35,7 @@ export class OmitEmpty {
 
         const res = omit(obj, runtimeOpts);
         if (res === void 0) {
-            return typeOf(obj) === 'object' ? {} : res;
+            return typeOf(obj) === "object" ? {} : res;
         }
         return res;
     }
@@ -51,26 +51,26 @@ export class OmitEmpty {
 
     private static isEmpty(value: any, runtimeOpts: any) {
         switch (typeOf(value)) {
-            case 'null':
-            case 'undefined':
+            case "null":
+            case "undefined":
                 return true;
-            case 'boolean':
-            case 'function':
-            case 'date':
-            case 'regexp':
+            case "boolean":
+            case "function":
+            case "date":
+            case "regexp":
                 return false;
-            case 'string':
-            case 'arguments':
+            case "string":
+            case "arguments":
                 return value.length === 0;
-            case 'file':
-            case 'map':
-            case 'set':
+            case "file":
+            case "map":
+            case "set":
                 return value.size === 0;
-            case 'number':
+            case "number":
                 return runtimeOpts.omitZero ? value === 0 : false;
-            case 'error':
-                return value.message === '';
-            case 'array':
+            case "error":
+                return value.message === "";
+            case "array":
                 if (runtimeOpts.omitEmptyArray) {
                     for (const ele of value) {
                         if (!OmitEmpty.isEmpty(ele, runtimeOpts)) {
@@ -81,7 +81,7 @@ export class OmitEmpty {
                 } else {
                     return false;
                 }
-            case 'object':
+            case "object":
                 for (const key of Object.keys(value)) {
                     if (!OmitEmpty.isEmpty(value[key], runtimeOpts)) {
                         return false;

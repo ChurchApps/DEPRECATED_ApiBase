@@ -1,4 +1,4 @@
-import { Principal } from './'
+import { Principal } from "./"
 import { IPermission } from "../helpers/Interfaces";
 
 export class AuthenticatedUser {
