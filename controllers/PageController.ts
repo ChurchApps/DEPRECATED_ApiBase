@@ -2,6 +2,7 @@ import { controller, httpPost, httpGet, httpDelete, requestParam } from "inversi
 import { Page } from "../models";
 import express from "express";
 import { CustomBaseController } from "./CustomBaseController";
+import { Permissions } from "../helpers";
 
 @controller("/pages")
 export class PageController extends CustomBaseController {
@@ -24,7 +25,7 @@ export class PageController extends CustomBaseController {
     @httpPost("/")
     public async save(req: express.Request<{}, {}, Page[]>, res: express.Response): Promise<any> {
         return this.actionWrapper(req, res, async (au) => {
-            if (!au.checkAccess('Pages', 'Edit')) return this.json({}, 401);
+            if (!au.checkAccess(Permissions.pages.edit)) return this.json({}, 401);
             else {
                 let pages: Page[] = req.body;
                 const promises: Promise<Page>[] = [];
@@ -44,8 +45,8 @@ export class PageController extends CustomBaseController {
     @httpDelete("/:id")
     public async delete(@requestParam("id") id: number, req: express.Request, res: express.Response): Promise<void> {
         return this.actionWrapper(req, res, async (au) => {
-            await this.baseRepositories.page.delete(id, au.churchId);
-            return null;
+            if (!au.checkAccess(Permissions.pages.edit)) return this.json({}, 401);
+            else this.baseRepositories.page.delete(id, au.churchId);
         });
     }
 

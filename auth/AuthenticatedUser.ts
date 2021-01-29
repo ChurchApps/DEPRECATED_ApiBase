@@ -1,4 +1,5 @@
 import { Principal } from './'
+import { IPermission } from "../helpers/Interfaces";
 
 export class AuthenticatedUser {
     // public details: any;
@@ -15,12 +16,21 @@ export class AuthenticatedUser {
         this.apiName = principal.details.apiName;
     }
 
+    public checkAccess(permission: IPermission) {
+        const key = permission.contentType + "__" + permission.action;
+        let result = false;
+        this.permissions.forEach((p: string) => { if (p === key) result = true; });
+        return result;
+    }
+
+    /*
     public checkAccess(contentType: string, action: string) {
         const key = contentType + "__" + action;
         let result = false;
         this.permissions.forEach((p: string) => { if (p === key) result = true; });
         return result;
     }
+    */
 
 
 

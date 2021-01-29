@@ -2,6 +2,7 @@ import { controller, httpPost, httpGet, httpDelete, requestParam } from "inversi
 import express from "express";
 import { Link } from "../models";
 import { CustomBaseController } from "./CustomBaseController";
+import { Permissions } from "../helpers";
 
 @controller("/links")
 export class LinkController extends CustomBaseController {
@@ -17,7 +18,7 @@ export class LinkController extends CustomBaseController {
     @httpPost("/")
     public async save(req: express.Request<{}, {}, Link[]>, res: express.Response): Promise<any> {
         return this.actionWrapper(req, res, async (au) => {
-            if (!au.checkAccess('Links', 'Edit')) return this.json({}, 401);
+            if (!au.checkAccess(Permissions.links.edit)) return this.json({}, 401);
             else {
                 let links: Link[] = req.body;
                 const promises: Promise<Link>[] = [];
@@ -28,19 +29,13 @@ export class LinkController extends CustomBaseController {
         });
     }
 
-
     @httpDelete("/:id")
     public async delete(@requestParam("id") id: number, req: express.Request, res: express.Response): Promise<void> {
         return this.actionWrapper(req, res, async (au) => {
-            await this.baseRepositories.link.delete(id, au.churchId);
-            return null;
+            if (!au.checkAccess(Permissions.links.edit)) return this.json({}, 401);
+            else {
+                await this.baseRepositories.link.delete(id, au.churchId);
+            }
         });
     }
-
-
-
 }
-
-
-
-
