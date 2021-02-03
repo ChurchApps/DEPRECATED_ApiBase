@@ -20,8 +20,9 @@ export class QuestionController extends CustomBaseController {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess(Permissions.forms.view)) return this.json({}, 401);
             else {
-                const formId: number = parseInt(req.query.formId.toString(), 0);
-                const data = await this.baseRepositories.question.loadForForm(au.churchId, formId);
+                let data = null;
+                if (req.query.formId !== undefined) data = await this.baseRepositories.question.loadForForm(au.churchId, parseInt(req.query.formId.toString(), 0));
+                else data = await this.baseRepositories.question.loadAll(au.churchId);
                 return this.baseRepositories.question.convertAllToModel(au.churchId, data);
             }
         });
