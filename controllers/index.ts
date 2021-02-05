@@ -7,3 +7,4 @@ export { NoteController } from "./NoteController";
 export { PageController } from "./PageController";
 export { QuestionController } from "./QuestionController";
 export { SettingController } from "./SettingController";
+export { AnswerController } from './AnswerController'
