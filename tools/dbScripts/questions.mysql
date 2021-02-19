@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS `questions`;
 
 CREATE TABLE `questions` (
-  `id` char(11) NOT NULL AUTO_INCREMENT,
+  `id` char(11) NOT NULL,
   `churchId` char(11) DEFAULT NULL,
   `formId` char(11) DEFAULT NULL,
   `parentId` char(11) DEFAULT NULL,
@@ -16,4 +16,4 @@ CREATE TABLE `questions` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `churchId` (`churchId`),
   KEY `formId` (`formId`)
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

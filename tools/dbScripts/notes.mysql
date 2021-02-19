@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS `notes`;
 
 CREATE TABLE `notes` (
-  `id` char(11) NOT NULL AUTO_INCREMENT,
+  `id` char(11) NOT NULL,
   `churchId` char(11) DEFAULT NULL,
   `contentType` varchar(50) DEFAULT NULL,
   `contentId` char(11) DEFAULT NULL,
@@ -12,4 +12,4 @@ CREATE TABLE `notes` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `churchId` (`churchId`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
