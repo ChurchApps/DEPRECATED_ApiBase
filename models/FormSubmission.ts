@@ -1,15 +1,15 @@
 import { Form, Answer, Question } from "./";
 
 export class FormSubmission {
-    public id?: number;
-    public churchId?: number;
-    public formId?: number;
+    public id?: string;
+    public churchId?: string;
+    public formId?: string;
     public contentType?: string;
-    public contentId?: number;
+    public contentId?: string;
     public submissionDate?: Date;
-    public submittedBy?: number;
+    public submittedBy?: string;
     public revisionDate?: Date;
-    public revisedBy?: number;
+    public revisedBy?: string;
 
     public form?: Form;
     public questions?: Question[];

@@ -3,8 +3,8 @@ import { IPermission } from "../helpers/Interfaces";
 
 export class AuthenticatedUser {
     // public details: any;
-    public id: number;
-    public churchId: number;
+    public id: string;
+    public churchId: string;
     public email: string;
     public apiName: string;
     public permissions: string[];

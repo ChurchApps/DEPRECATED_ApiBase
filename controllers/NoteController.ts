@@ -8,7 +8,7 @@ import { Permissions } from "../helpers";
 export class NoteController extends CustomBaseController {
 
     @httpGet("/:id")
-    public async get(@requestParam("id") id: number, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    public async get(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess(Permissions.notes.view)) return this.json({}, 401);
             else return this.baseRepositories.note.convertToModel(au.churchId, await this.baseRepositories.note.load(au.churchId, id));
@@ -16,7 +16,7 @@ export class NoteController extends CustomBaseController {
     }
 
     @httpGet("/:contentType/:contentId")
-    public async getForContent(@requestParam("contentType") contentType: string, @requestParam("contentId") contentId: number, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    public async getForContent(@requestParam("contentType") contentType: string, @requestParam("contentId") contentId: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess(Permissions.notes.view)) return this.json({}, 401);
             else return await this.baseRepositories.note.loadForContent(au.churchId, contentType, contentId).then(data => {
@@ -47,7 +47,7 @@ export class NoteController extends CustomBaseController {
     }
 
     @httpDelete("/:id")
-    public async delete(@requestParam("id") id: number, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    public async delete(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess(Permissions.notes.edit)) return this.json({}, 401);
             else await this.baseRepositories.note.delete(au.churchId, id);

@@ -1,6 +1,6 @@
 export class Page {
-    id?: number;
-    churchId: number;
+    id?: string;
+    churchId: string;
     name: string;
     content: string;
     lastModified?: Date;

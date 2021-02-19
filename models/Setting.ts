@@ -1,6 +1,6 @@
 export class Setting {
-    public id?: number;
-    public churchId?: number;
+    public id?: string;
+    public churchId?: string;
     public keyName?: string;
     public value?: string;
 }

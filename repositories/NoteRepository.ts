@@ -1,20 +1,22 @@
 import { injectable } from "inversify";
 import { DB } from "../db";
 import { Note } from "../models";
-import { PersonHelper } from "../helpers/tmpPersonHelper"
+import { PersonHelper } from "../helpers/tmpPersonHelper";
+import { UniqueIdHelper } from "../helpers";
 
 @injectable()
 export class NoteRepository {
 
     public async save(note: Note) {
-        if (note.id > 0) return this.update(note); else return this.create(note);
+        if (UniqueIdHelper.isMissing(note.id)) return this.create(note); else return this.update(note);
     }
 
     public async create(note: Note) {
+        note.id = UniqueIdHelper.shortId();
         return DB.query(
-            "INSERT INTO notes (churchId, contentType, contentId, noteType, addedBy, dateAdded, contents) VALUES (?, ?, ?, ?, ?, NOW(), ?);",
-            [note.churchId, note.contentType, note.contentId, note.contentType, note.addedBy, note.contents]
-        ).then((row: any) => { note.id = row.insertId; return note; });
+            "INSERT INTO notes (id, churchId, contentType, contentId, noteType, addedBy, dateAdded, contents) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?);",
+            [note.id, note.churchId, note.contentType, note.contentId, note.contentType, note.addedBy, note.contents]
+        ).then(() => { return note; });
     }
 
     public async update(note: Note) {
@@ -24,24 +26,24 @@ export class NoteRepository {
         ).then(() => { return note });
     }
 
-    public async delete(churchId: number, id: number) {
+    public async delete(churchId: string, id: string) {
         DB.query("DELETE FROM notes WHERE id=? AND churchId=?;", [id, churchId]);
     }
 
-    public async load(churchId: number, id: number) {
+    public async load(churchId: string, id: string) {
         return DB.queryOne("SELECT * FROM notes WHERE id=? AND churchId=?;", [id, churchId]);
     }
 
-    public async loadForContent(churchId: number, contentType: string, contentId: number) {
+    public async loadForContent(churchId: string, contentType: string, contentId: string) {
         return DB.query("SELECT n.*, p.photoUpdated, p.displayName FROM notes n INNER JOIN people p on p.churchId=n.churchId AND p.userId=n.addedBy WHERE n.churchId=? AND n.contentType=? AND n.contentId=?;", [churchId, contentType, contentId]);
     }
 
-    public async loadAll(churchId: number) {
+    public async loadAll(churchId: string) {
         return DB.query("SELECT * FROM notes WHERE churchId=?;", [churchId]);
     }
 
 
-    public convertToModel(churchId: number, data: any) {
+    public convertToModel(churchId: string, data: any) {
         const result: Note = {
             person: { photoUpdated: data.photoUpdate, name: { display: data.displayName } },
             contentId: data.contentId, contentType: data.contentType, contents: data.contents, id: data.id, addedBy: data.addedBy, dateAdded: data.dateAdded, noteType: data.noteType
@@ -50,7 +52,7 @@ export class NoteRepository {
         return result;
     }
 
-    public convertAllToModel(churchId: number, data: any[]) {
+    public convertAllToModel(churchId: string, data: any[]) {
         const result: Note[] = [];
         data.forEach(d => result.push(this.convertToModel(churchId, d)));
         return result;

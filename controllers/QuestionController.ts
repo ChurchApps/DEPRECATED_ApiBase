@@ -8,7 +8,7 @@ import { Permissions } from "../helpers";
 export class QuestionController extends CustomBaseController {
 
     @httpGet("/:id")
-    public async get(@requestParam("id") id: number, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    public async get(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess(Permissions.forms.view)) return this.json({}, 401);
             else return this.baseRepositories.question.convertToModel(au.churchId, await this.baseRepositories.question.load(au.churchId, id));
@@ -21,7 +21,7 @@ export class QuestionController extends CustomBaseController {
             if (!au.checkAccess(Permissions.forms.view)) return this.json({}, 401);
             else {
                 let data = null;
-                if (req.query.formId !== undefined) data = await this.baseRepositories.question.loadForForm(au.churchId, parseInt(req.query.formId.toString(), 0));
+                if (req.query.formId !== undefined) data = await this.baseRepositories.question.loadForForm(au.churchId, req.query.formId.toString());
                 else data = await this.baseRepositories.question.loadAll(au.churchId);
                 return this.baseRepositories.question.convertAllToModel(au.churchId, data);
             }
@@ -42,7 +42,7 @@ export class QuestionController extends CustomBaseController {
     }
 
     @httpDelete("/:id")
-    public async delete(@requestParam("id") id: number, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    public async delete(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess(Permissions.forms.edit)) return this.json({}, 401);
             else await this.baseRepositories.question.delete(au.churchId, id);
