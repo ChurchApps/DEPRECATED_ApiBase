@@ -11,10 +11,11 @@ export class AnswerRepository {
     }
 
     public async create(answer: Answer) {
+        answer.id = UniqueIdHelper.shortId();
         return DB.query(
             "INSERT INTO answers (id, churchId, formSubmissionId, questionId, value) VALUES (?, ?, ?, ?, ?);",
-            [UniqueIdHelper.shortId(), answer.churchId, answer.formSubmissionId, answer.questionId, answer.value]
-        ).then((row: any) => { answer.id = row.insertId; return answer; });
+            [answer.id, answer.churchId, answer.formSubmissionId, answer.questionId, answer.value]
+        ).then(() => { return answer; });
     }
 
     public async update(answer: Answer) {

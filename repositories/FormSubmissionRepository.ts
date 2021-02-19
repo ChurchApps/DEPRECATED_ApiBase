@@ -14,10 +14,11 @@ export class FormSubmissionRepository {
     public async create(formSubmission: FormSubmission) {
         const submissionDate = DateTimeHelper.toMysqlDate(formSubmission.submissionDate);
         const revisionDate = DateTimeHelper.toMysqlDate(formSubmission.revisionDate);
+        formSubmission.id = UniqueIdHelper.shortId();
         return DB.query(
             "INSERT INTO formSubmissions (id, churchId, formId, contentType, contentId, submissionDate, submittedBy, revisionDate, revisedBy) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);",
-            [UniqueIdHelper.shortId(), formSubmission.churchId, formSubmission.formId, formSubmission.contentType, formSubmission.contentId, submissionDate, formSubmission.submittedBy, revisionDate, formSubmission.revisedBy]
-        ).then((row: any) => { formSubmission.id = row.insertId; return formSubmission; });
+            [formSubmission.id, formSubmission.churchId, formSubmission.formId, formSubmission.contentType, formSubmission.contentId, submissionDate, formSubmission.submittedBy, revisionDate, formSubmission.revisedBy]
+        ).then(() => { return formSubmission; });
     }
 
     public async update(formSubmission: FormSubmission) {

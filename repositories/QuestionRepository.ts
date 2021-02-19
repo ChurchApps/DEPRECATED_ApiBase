@@ -11,9 +11,10 @@ export class QuestionRepository {
     }
 
     public async create(question: Question) {
+        question.id = UniqueIdHelper.shortId();
         const sql = "INSERT INTO questions (id, churchId, formId, parentId, title, description, fieldType, placeholder, sort, choices, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);";
-        const params = [UniqueIdHelper.shortId(), question.churchId, question.formId, question.parentId, question.title, question.description, question.fieldType, question.placeholder, question.sort, JSON.stringify(question.choices)];
-        return DB.query(sql, params).then((row: any) => { question.id = row.insertId; return question; });
+        const params = [question.id, question.churchId, question.formId, question.parentId, question.title, question.description, question.fieldType, question.placeholder, question.sort, JSON.stringify(question.choices)];
+        return DB.query(sql, params).then(() => { return question; });
     }
 
     public async update(question: Question) {

@@ -11,10 +11,11 @@ export class FormRepository {
     }
 
     public async create(form: Form) {
+        form.id = UniqueIdHelper.shortId();
         return DB.query(
             "INSERT INTO forms (id, churchId, name, contentType, createdTime, modifiedTime, removed) VALUES (?, ?, ?, ?, NOW(), NOW(), 0);",
-            [UniqueIdHelper.shortId(), form.churchId, form.name, form.contentType]
-        ).then((row: any) => { form.id = row.insertId; return form; });
+            [form.id, form.churchId, form.name, form.contentType]
+        ).then(() => { return form; });
     }
 
     public async update(form: Form) {

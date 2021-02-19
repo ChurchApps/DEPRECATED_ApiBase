@@ -11,13 +11,11 @@ export class SettingRepository {
     }
 
     public async create(setting: Setting) {
+        setting.id = UniqueIdHelper.shortId();
         return DB.query(
             "INSERT INTO settings (id, churchId, keyName, value) VALUES (?, ?, ?, ?)",
-            [UniqueIdHelper.shortId(), setting.churchId, setting.keyName, setting.value]
-        ).then((row: any) => {
-            setting.id = row.insertId;
-            return setting;
-        })
+            [setting.id, setting.churchId, setting.keyName, setting.value]
+        ).then(() => { return setting; });
     }
 
     public async update(setting: Setting) {

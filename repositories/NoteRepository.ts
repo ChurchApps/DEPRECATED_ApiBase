@@ -12,10 +12,11 @@ export class NoteRepository {
     }
 
     public async create(note: Note) {
+        note.id = UniqueIdHelper.shortId();
         return DB.query(
             "INSERT INTO notes (id, churchId, contentType, contentId, noteType, addedBy, dateAdded, contents) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?);",
-            [UniqueIdHelper.shortId(), note.churchId, note.contentType, note.contentId, note.contentType, note.addedBy, note.contents]
-        ).then((row: any) => { note.id = row.insertId; return note; });
+            [note.id, note.churchId, note.contentType, note.contentId, note.contentType, note.addedBy, note.contents]
+        ).then(() => { return note; });
     }
 
     public async update(note: Note) {

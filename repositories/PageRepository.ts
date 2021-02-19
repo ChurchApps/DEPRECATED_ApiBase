@@ -9,9 +9,10 @@ export class PageRepository {
     }
 
     public async create(page: Page) {
+        page.id = UniqueIdHelper.shortId();
         const query = "INSERT INTO pages (id, churchId, name, content, lastModified) VALUES (?, ?, ?, ?, NOW());";
-        const params = [UniqueIdHelper.shortId(), page.churchId, page.name, page.content];
-        return DB.query(query, params).then((row: any) => { page.id = row.insertId; return page; });
+        const params = [page.id, page.churchId, page.name, page.content];
+        return DB.query(query, params).then(() => { return page; });
     }
 
     public async update(page: Page) {
