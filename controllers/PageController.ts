@@ -15,7 +15,7 @@ export class PageController extends CustomBaseController {
     }
 
     @httpGet("/:id")
-    public async load(@requestParam("id") id: number, req: express.Request, res: express.Response): Promise<any> {
+    public async load(@requestParam("id") id: string, req: express.Request, res: express.Response): Promise<any> {
         return this.actionWrapper(req, res, async (au) => {
             const result = await this.baseRepositories.page.loadById(id, au.churchId);
             return result;
@@ -43,7 +43,7 @@ export class PageController extends CustomBaseController {
     }
 
     @httpDelete("/:id")
-    public async delete(@requestParam("id") id: number, req: express.Request, res: express.Response): Promise<void> {
+    public async delete(@requestParam("id") id: string, req: express.Request, res: express.Response): Promise<void> {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess(Permissions.pages.edit)) return this.json({}, 401);
             else this.baseRepositories.page.delete(id, au.churchId);

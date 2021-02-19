@@ -13,7 +13,7 @@ export class AnswerController extends CustomBaseController {
             if (!au.checkAccess(Permissions.forms.view)) return this.json({}, 401);
             else {
                 let data = null;
-                if (req.query.formSubmissionId !== undefined) data = this.baseRepositories.answer.loadForFormSubmission(au.churchId, parseInt(req.query.formSubmissionId.toString(), 0))
+                if (req.query.formSubmissionId !== undefined) data = this.baseRepositories.answer.loadForFormSubmission(au.churchId, req.query.formSubmissionId.toString())
                 else data = await this.baseRepositories.answer.loadAll(au.churchId);
                 return this.baseRepositories.answer.convertAllToModel(au.churchId, data);
             }

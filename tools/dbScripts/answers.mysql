@@ -1,10 +1,10 @@
 DROP TABLE IF EXISTS `answers`;
 
 CREATE TABLE `answers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `churchId` int(11) DEFAULT NULL,
-  `formSubmissionId` int(11) DEFAULT NULL,
-  `questionId` int(11) DEFAULT NULL,
+  `id` char(11) NOT NULL AUTO_INCREMENT,
+  `churchId` char(11) DEFAULT NULL,
+  `formSubmissionId` char(11) DEFAULT NULL,
+  `questionId` char(11) DEFAULT NULL,
   `value` varchar(5000) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `churchId` (`churchId`),

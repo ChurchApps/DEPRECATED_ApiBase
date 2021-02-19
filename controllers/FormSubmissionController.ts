@@ -8,7 +8,7 @@ import { Permissions } from "../helpers";
 export class FormSubmissionController extends CustomBaseController {
 
     @httpGet("/:id")
-    public async get(@requestParam("id") id: number, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    public async get(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess(Permissions.forms.view)) return this.json({}, 401);
             const result: FormSubmission = this.baseRepositories.formSubmission.convertToModel(au.churchId, await this.baseRepositories.formSubmission.load(au.churchId, id));
@@ -25,7 +25,7 @@ export class FormSubmissionController extends CustomBaseController {
             if (!au.checkAccess(Permissions.forms.view)) return this.json({}, 401);
             else {
                 let result = null;
-                if (req.query.personId !== undefined) result = await this.baseRepositories.formSubmission.loadForContent(au.churchId, "person", parseInt(req.query.personId.toString(), 0));
+                if (req.query.personId !== undefined) result = await this.baseRepositories.formSubmission.loadForContent(au.churchId, "person", req.query.personId.toString());
                 else result = await this.baseRepositories.formSubmission.loadAll(au.churchId);
                 return this.baseRepositories.formSubmission.convertAllToModel(au.churchId, result);
             }
@@ -60,7 +60,7 @@ export class FormSubmissionController extends CustomBaseController {
     }
 
     @httpDelete("/:id")
-    public async delete(@requestParam("id") id: number, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    public async delete(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess(Permissions.forms.edit)) return this.json({}, 401);
             else {
@@ -71,17 +71,17 @@ export class FormSubmissionController extends CustomBaseController {
         });
     }
 
-    private async appendForm(churchId: number, formSubmission: FormSubmission) {
+    private async appendForm(churchId: string, formSubmission: FormSubmission) {
         const data = await this.baseRepositories.form.load(churchId, formSubmission.formId);
         formSubmission.form = this.baseRepositories.form.convertToModel(churchId, data);
     }
 
-    private async appendQuestions(churchId: number, formSubmission: FormSubmission) {
+    private async appendQuestions(churchId: string, formSubmission: FormSubmission) {
         const data = await this.baseRepositories.question.loadForForm(churchId, formSubmission.formId);
         formSubmission.questions = this.baseRepositories.question.convertAllToModel(churchId, data);
     }
 
-    private async appendAnswers(churchId: number, formSubmission: FormSubmission) {
+    private async appendAnswers(churchId: string, formSubmission: FormSubmission) {
         const data = await this.baseRepositories.answer.loadForFormSubmission(churchId, formSubmission.id);
         formSubmission.answers = this.baseRepositories.answer.convertAllToModel(churchId, data);
     }

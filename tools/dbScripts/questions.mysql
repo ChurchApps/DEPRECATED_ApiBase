@@ -1,15 +1,15 @@
 DROP TABLE IF EXISTS `questions`;
 
 CREATE TABLE `questions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `churchId` int(11) DEFAULT NULL,
-  `formId` int(11) DEFAULT NULL,
-  `parentId` int(11) DEFAULT NULL,
+  `id` char(11) NOT NULL AUTO_INCREMENT,
+  `churchId` char(11) DEFAULT NULL,
+  `formId` char(11) DEFAULT NULL,
+  `parentId` char(11) DEFAULT NULL,
   `title` varchar(50) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `fieldType` varchar(50) DEFAULT NULL,
   `placeholder` varchar(50) DEFAULT NULL,
-  `sort` int(11) DEFAULT NULL,
+  `sort` char(11) DEFAULT NULL,
   `choices` text,
   `removed` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`),

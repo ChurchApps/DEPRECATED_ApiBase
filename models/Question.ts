@@ -1,8 +1,8 @@
 export class Question {
-    public id?: number;
-    public churchId?: number;
-    public formId?: number;
-    public parentId?: number;
+    public id?: string;
+    public churchId?: string;
+    public formId?: string;
+    public parentId?: string;
     public title?: string;
     public description?: string;
     public fieldType?: string;

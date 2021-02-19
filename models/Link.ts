@@ -1,7 +1,7 @@
 
 export class Link {
-    id?: number;
-    churchId: number;
+    id?: string;
+    churchId: string;
     category: string;
     linkType: string;
     linkData: string;

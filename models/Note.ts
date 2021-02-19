@@ -1,12 +1,12 @@
 import { Person } from "../models/tmpPerson";
 
 export class Note {
-    public id?: number;
-    public churchId?: number;
+    public id?: string;
+    public churchId?: string;
     public contentType?: string;
-    public contentId?: number;
+    public contentId?: string;
     public noteType?: string;
-    public addedBy?: number;
+    public addedBy?: string;
     public dateAdded?: Date;
     public contents?: string;
 

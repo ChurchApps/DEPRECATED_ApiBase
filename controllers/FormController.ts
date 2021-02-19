@@ -8,7 +8,7 @@ import { Permissions } from "../helpers";
 export class FormController extends CustomBaseController {
 
     @httpGet("/:id")
-    public async get(@requestParam("id") id: number, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    public async get(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess(Permissions.forms.view)) return this.json({}, 401);
             else return this.baseRepositories.form.convertToModel(au.churchId, await this.baseRepositories.form.load(au.churchId, id));
@@ -37,7 +37,7 @@ export class FormController extends CustomBaseController {
     }
 
     @httpDelete("/:id")
-    public async delete(@requestParam("id") id: number, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    public async delete(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess(Permissions.forms.edit)) return this.json({}, 401);
             else await this.baseRepositories.form.delete(au.churchId, id);
