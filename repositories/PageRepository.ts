@@ -5,7 +5,7 @@ import { UniqueIdHelper } from "../helpers";
 export class PageRepository {
 
     public save(page: Page) {
-        if (UniqueIdHelper.isMissing(page.id)) return this.update(page); else return this.create(page);
+        if (UniqueIdHelper.isMissing(page.id)) return this.create(page); else return this.update(page);
     }
 
     public async create(page: Page) {

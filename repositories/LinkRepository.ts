@@ -13,7 +13,7 @@ export class LinkRepository {
     }
 
     public save(link: Link) {
-        if (UniqueIdHelper.isMissing(link.id)) return this.update(link); else return this.create(link);
+        if (UniqueIdHelper.isMissing(link.id)) return this.create(link); else return this.update(link);
     }
 
     public async create(link: Link) {

@@ -7,8 +7,7 @@ import { UniqueIdHelper } from "../helpers";
 export class SettingRepository {
 
     public async save(setting: Setting) {
-        if (UniqueIdHelper.isMissing(setting.id)) return this.update(setting);
-        else return this.create(setting);
+        if (UniqueIdHelper.isMissing(setting.id)) return this.create(setting); else return this.update(setting);
     }
 
     public async create(setting: Setting) {

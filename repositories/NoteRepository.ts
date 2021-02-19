@@ -8,7 +8,7 @@ import { UniqueIdHelper } from "../helpers";
 export class NoteRepository {
 
     public async save(note: Note) {
-        if (UniqueIdHelper.isMissing(note.id)) return this.update(note); else return this.create(note);
+        if (UniqueIdHelper.isMissing(note.id)) return this.create(note); else return this.update(note);
     }
 
     public async create(note: Note) {
