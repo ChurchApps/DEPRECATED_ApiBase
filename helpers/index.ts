@@ -2,6 +2,7 @@ export * from "./AccessManagement";
 export * from "./ArrayHelper";
 export * from "./AwsHelper";
 export * from "./DateTimeHelper";
+export * from "./EncryptionHelper";
 export * from "./Interfaces";
 export * from "./LoggingHelper";
 export * from "./OmitEmpty";
