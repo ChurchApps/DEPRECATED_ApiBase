@@ -6,6 +6,18 @@ import { Permissions } from "../helpers";
 
 @controller("/links")
 export class LinkController extends CustomBaseController {
+
+    // Anonymous access
+    @httpGet("/church/:churchId")
+    public async loadAnon(@requestParam("churchId") churchId: string, req: express.Request, res: express.Response): Promise<any> {
+        return this.actionWrapperAnon(req, res, async () => {
+            const category = req.query.category.toString();
+            if (category === undefined) return await this.baseRepositories.link.loadAll(churchId);
+            else return await this.baseRepositories.link.loadByCategory(churchId, category);
+        });
+    }
+
+
     @httpGet("/")
     public async loadAll(req: express.Request, res: express.Response): Promise<any> {
         return this.actionWrapper(req, res, async (au) => {
