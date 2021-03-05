@@ -2,7 +2,7 @@ import { BaseHttpController } from "inversify-express-utils";
 import { Repositories } from "../repositories";
 import express from "express";
 import { LoggingHelper } from "../helpers/LoggingHelper";
-import { AuthenticatedUser } from "../auth"
+import { AuthenticatedUser, Principal } from "../auth"
 
 
 export class CustomBaseController extends BaseHttpController {
@@ -25,7 +25,8 @@ export class CustomBaseController extends BaseHttpController {
     }
 
     public authUser(): AuthenticatedUser {
-        return new AuthenticatedUser(this.httpContext.user);
+        if (this.httpContext.user === null) return new AuthenticatedUser(new Principal({}));
+        else return new AuthenticatedUser(this.httpContext.user);
     }
 
     public include(req: express.Request, item: string) {
