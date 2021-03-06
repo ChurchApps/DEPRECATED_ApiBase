@@ -5,6 +5,10 @@ CREATE TABLE `settings` (
   `churchId` char(11) DEFAULT NULL,
   `keyName` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
+  `homePageUrl` varchar(255) DEFAULT NULL,
+  `logoUrl` TEXT DEFAULT NULL,
+  `primaryColor` varchar(45) DEFAULT NULL,
+  `contrastColor` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `churchId` (`churchId`)
