@@ -29,6 +29,10 @@ export class SettingRepository {
         return DB.query("SELECT * FROM settings WHERE churchId=?;", [setting]);
     }
 
+    public async loadByChurchId(churchId: string) {
+        return DB.queryOne("SELECT * FROM settings WHERE churchId=?;", [churchId]);
+    }
+
     public convertToModel(churchId: string, data: any) {
         const result: Setting = {
             id: data.id,
