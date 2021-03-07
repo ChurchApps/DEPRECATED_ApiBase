@@ -36,9 +36,12 @@ export class SettingController extends CustomBaseController {
     @httpGet("/public/:churchId")
     public async publicRoute(@requestParam("churchId") churchId: string, req: express.Request, res: express.Response): Promise<interfaces.IHttpActionResult> {
         try {
-            const settings = await this.baseRepositories.setting.loadPublicSettings(churchId);
-
-            return this.json(settings, 200);
+            const settings = this.baseRepositories.setting.convertAllToModel(churchId, await this.baseRepositories.setting.loadPublicSettings(churchId));
+            const result: any = {};
+            settings.forEach(s => {
+                result[s.keyName] = s.value;
+            })
+            return this.json(result, 200);
         } catch (e) {
             this.logger.error(e);
             return this.internalServerError(e);
