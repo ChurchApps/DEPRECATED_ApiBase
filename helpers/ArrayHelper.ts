@@ -18,4 +18,10 @@ export class ArrayHelper {
         for (const item of array) if (item[propertyName] === value) result.push(item);
         return result;
     }
+
+    static fillArray(contents: string, length: number) {
+        const result = [];
+        for (let i = 0; i < length; i++) result.push(contents);
+        return result;
+    }
 }
