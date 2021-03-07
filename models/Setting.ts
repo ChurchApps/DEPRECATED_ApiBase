@@ -3,4 +3,5 @@ export class Setting {
     public churchId?: string;
     public keyName?: string;
     public value?: string;
+    public public?: string
 }

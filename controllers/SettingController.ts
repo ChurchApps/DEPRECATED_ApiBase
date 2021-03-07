@@ -1,4 +1,4 @@
-import { controller, httpPost, httpGet, interfaces } from "inversify-express-utils"
+import { controller, httpPost, httpGet, interfaces, requestParam } from "inversify-express-utils"
 import express from "express"
 import { Setting } from "../models"
 import { CustomBaseController } from "./CustomBaseController"
@@ -31,5 +31,17 @@ export class SettingController extends CustomBaseController {
                 return this.baseRepositories.setting.convertAllToModel(au.churchId, result);
             }
         })
+    }
+
+    @httpGet("/public/:churchId")
+    public async publicRoute(@requestParam("churchId") churchId: string, req: express.Request, res: express.Response): Promise<interfaces.IHttpActionResult> {
+        try {
+            const settings = await this.baseRepositories.setting.loadPublicSettings(churchId);
+
+            return this.json(settings, 200);
+        } catch (e) {
+            this.logger.error(e);
+            return this.internalServerError(e);
+        }
     }
 }
