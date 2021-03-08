@@ -1,2 +1,1 @@
 export interface IPermission { contentType: string; action: string; }
-export interface ISettingsConfig { id?: string, churchId?: string, keyName?: string, value?: string, homePageUrl?: string, logoUrl?: string, primaryColor?: string, contrastColor?: string };
