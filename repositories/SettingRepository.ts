@@ -38,6 +38,7 @@ export class SettingRepository {
             id: data.id,
             keyName: data.keyName,
             value: data.value,
+            public: data.public
         };
         return result;
     }
