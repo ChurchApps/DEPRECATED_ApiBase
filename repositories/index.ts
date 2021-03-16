@@ -1,4 +1,5 @@
 export { AnswerRepository } from "./AnswerRepository";
+export { FileRepository } from './FileRepository';
 export { FormRepository } from "./FormRepository";
 export { FormSubmissionRepository } from "./FormSubmissionRepository";
 export { LinkRepository } from "./LinkRepository";
