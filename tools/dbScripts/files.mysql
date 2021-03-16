@@ -4,8 +4,9 @@ CREATE TABLE `files` (
   `id` char(11) NOT NULL,
   `itemId` char(11) DEFAULT NULL,
   `type` char(25) DEFAULT NULL,
-  `content` longtext DEFAULT NULL,
+  `content` text,
   `lastModified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
