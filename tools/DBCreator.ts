@@ -6,7 +6,7 @@ export class DBCreator {
 
     private static tables: { title: string, file: string }[] = [
         { title: "Answers", file: "answers.mysql" },
-        { title: "files", file: "files.mysql" },
+        { title: "Files", file: "files.mysql" },
         { title: "Forms", file: "forms.mysql" },
         { title: "FormSubmissions", file: "formSubmissions.mysql" },
         { title: "Links", file: "links.mysql" },
