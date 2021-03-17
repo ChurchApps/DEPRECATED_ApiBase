@@ -10,8 +10,10 @@ export class PageRepository {
 
     public async create(page: Page) {
         page.id = UniqueIdHelper.shortId();
-        const query = "INSERT INTO pages (id, churchId, name, content, lastModified) VALUES (?, ?, ?, ?, NOW());";
-        const params = [page.id, page.churchId, page.name, page.content];
+        const filePath = "/files/" + UniqueIdHelper.shortId();
+
+        const query = "INSERT INTO pages (id, churchId, name, content, path, lastModified) VALUES (?, ?, ?, ?, ?, NOW());";
+        const params = [page.id, page.churchId, page.name, page.content, filePath];
         return DB.query(query, params).then(() => { return page; });
     }
 
