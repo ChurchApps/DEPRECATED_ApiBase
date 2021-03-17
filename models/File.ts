@@ -3,5 +3,5 @@ export class File {
     churchId: string;
     type: string;
     content: any;
-    lastModified: Date;
+    lastModified?: Date;
 }

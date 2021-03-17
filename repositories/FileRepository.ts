@@ -8,14 +8,15 @@ import { File } from "../models";
 export class FileRepository {
 
 
-    public save(file: File, id: string) {
-        if (UniqueIdHelper.isMissing(file.id)) return this.create(file, id); else return this.update(file);
+    public save(file: File) {
+        if (UniqueIdHelper.isMissing(file.id)) return this.create(file); else return this.update(file);
     }
 
-    public async create(file: File, id: string) {
+    public async create(file: File) {
+        file.id = UniqueIdHelper.shortId();
         return DB.query(
-            "INSERT INTO files ( id ,churchId, type, content, lastModified) VALUES ( ?, ?, ?, ?, ?);",
-            [id, file.churchId, file.type, file.content, file.lastModified]
+            "INSERT INTO files ( id ,churchId, type, content, lastModified) VALUES ( ?, ?, ?, ?, NOW());",
+            [file.id, file.churchId, file.type, file.content]
         ).then(() => { return file; });
     }
 
