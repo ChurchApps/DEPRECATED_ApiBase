@@ -3,5 +3,6 @@ export class Page {
     churchId: string;
     name: string;
     content: string;
+    path: string;
     lastModified?: Date;
 }

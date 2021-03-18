@@ -1,9 +1,10 @@
-import { AnswerRepository, FormRepository, FormSubmissionRepository, LinkRepository, NoteRepository, PageRepository, QuestionRepository } from ".";
+import { AnswerRepository, FormRepository, FormSubmissionRepository, LinkRepository, NoteRepository, PageRepository, QuestionRepository, FileRepository } from ".";
 import { SettingRepository } from "./SettingRepository";
 
 export class Repositories {
   public answer: AnswerRepository;
   public link: LinkRepository;
+  public file: FileRepository;
   public form: FormRepository;
   public formSubmission: FormSubmissionRepository;
   public note: NoteRepository;
@@ -21,6 +22,7 @@ export class Repositories {
 
   constructor() {
     this.answer = new AnswerRepository();
+    this.file = new FileRepository();
     this.form = new FormRepository();
     this.formSubmission = new FormSubmissionRepository();
     this.link = new LinkRepository();

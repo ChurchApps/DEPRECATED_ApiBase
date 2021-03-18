@@ -6,13 +6,15 @@ export class DBCreator {
 
     private static tables: { title: string, file: string }[] = [
         { title: "Answers", file: "answers.mysql" },
+        { title: "Files", file: "files.mysql" },
         { title: "Forms", file: "forms.mysql" },
         { title: "FormSubmissions", file: "formSubmissions.mysql" },
         { title: "Links", file: "links.mysql" },
         { title: "Notes", file: "notes.mysql" },
         { title: "Pages", file: "pages.mysql" },
         { title: "Settings", file: "settings.mysql" },
-        { title: "Questions", file: "questions.mysql" }
+        { title: "Questions", file: "questions.mysql" },
+
     ]
 
     public static async init(selectedTables: string[]) {
