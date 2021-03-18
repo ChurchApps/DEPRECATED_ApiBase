@@ -30,4 +30,17 @@ export class FileRepository {
     public async loadById(id: string) {
         return DB.queryOne("SELECT * FROM files WHERE id=?;", [id]);
     }
+
+
+    public convertToModel(churchId: string, data: any) {
+        const result: File = { id: data.id, churchId: data.churchId, type: data.type, content: Buffer.from(data.content, 'binary').toString('base64'), lastModified: data.lastModified };
+        return result;
+    }
+
+    public convertAllToModel(churchId: string, data: any[]) {
+        const result: File[] = [];
+        data.forEach(d => result.push(this.convertToModel(churchId, d)));
+        return result;
+    }
+
 }
