@@ -16,7 +16,7 @@ export class EmailHelper {
     }
 
     private static withSes({ from, to, subject, body }: IEmailPayload) {
-        return new Promise<void>(async (resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             try {
                 AWS.config.update({ region: 'us-east-2' });
                 const ses = new AWS.SES({ apiVersion: '2010-12-01' });
@@ -31,19 +31,19 @@ export class EmailHelper {
                     Source: from
                 };
                 await ses.sendEmail(params).promise();
-                resolve();
+                resolve(null);
             } catch (e) { reject(e); }
         });
     }
 
     private static withNodemailer({ from, to, subject, body }: IEmailPayload) {
-        return new Promise<void>(async (resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             try {
                 const transporter: nodemailer.Transporter = nodemailer.createTransport(directTransport({
                     name: 'churchapps.org'
                 }));
                 await transporter.sendMail({ from, to, subject, html: body });
-                resolve()
+                resolve(null)
             } catch (err) {
                 reject(err)
             }
