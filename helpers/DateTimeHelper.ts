@@ -6,4 +6,9 @@ export class DateTimeHelper {
         const date = new Date(d);
         return date.toISOString().slice(0, 19).replace("T", " ");
     }
+
+    public static subtractHoursFromNow(hour: number) {
+        const now = new Date();
+        return new Date(now.setHours(now.getHours() - hour));
+    }
 }
