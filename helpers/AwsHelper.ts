@@ -32,6 +32,16 @@ export class AwsHelper {
         });
     }
 
+    static S3Remove(key: string): Promise<void> {
+        return new Promise((resolve, reject) => {
+            const params: AWS.S3.PutObjectRequest = { Bucket: AwsHelper._s3Bucket, Key: key }
+            this.S3().deleteObject(params, (error: Error, data: AWS.S3.DeleteObjectOutput) => {
+                if (error) reject(error);
+                else resolve();
+            });
+        });
+    }
+
     static async S3List(path: string): Promise<string[]> {
         return new Promise((resolve, reject) => {
             this.S3().listObjectsV2({ Bucket: AwsHelper._s3Bucket, Prefix: path }, (error: Error, data: AWS.S3.ListObjectsV2Output) => {

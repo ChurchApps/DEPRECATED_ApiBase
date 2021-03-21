@@ -1,6 +1,5 @@
 export { CustomBaseController } from "./CustomBaseController";
 export { ErrorController } from "./ErrorController";
-export { FileController } from './FileController';
 export { FormController } from "./FormController";
 export { FormSubmissionController } from "./FormSubmissionController";
 export { LinkController } from "./LinkController";
