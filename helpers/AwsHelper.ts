@@ -23,7 +23,7 @@ export class AwsHelper {
     }
 
     static S3Upload(key: string, contentType: string, contents: ByteBuffer): Promise<void> {
-        if (key.indexOf("/") === 0) key = key.substring(1, key.length - 1);
+        if (key.indexOf("/") === 0) key = key.substring(1, key.length);
         return new Promise((resolve, reject) => {
             const params: AWS.S3.PutObjectRequest = { Bucket: AwsHelper._s3Bucket, Key: key, Body: contents, ACL: "public-read", ContentType: contentType }
             this.S3().upload(params, (error: Error, data: AWS.S3.ManagedUpload.SendData) => {
