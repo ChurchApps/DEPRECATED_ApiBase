@@ -10,14 +10,14 @@ export class PageRepository {
 
     public async create(page: Page) {
         page.id = UniqueIdHelper.shortId();
-        const query = "INSERT INTO pages (id, churchId, name, content, path, lastModified) VALUES (?, ?, ?, ?, ?, NOW());";
-        const params = [page.id, page.churchId, page.name, page.content, page.path];
+        const query = "INSERT INTO pages (id, churchId, name, path, lastModified) VALUES (?, ?, ?, ?, ?, NOW());";
+        const params = [page.id, page.churchId, page.name, page.path];
         return DB.query(query, params).then(() => { return page; });
     }
 
     public async update(page: Page) {
-        const query = "UPDATE pages SET name=?, content=?, lastModified=NOW() WHERE id=? AND churchId=?;";
-        const params = [page.name, page.content, page.id, page.churchId];
+        const query = "UPDATE pages SET name=?, lastModified=NOW() WHERE id=? AND churchId=?;";
+        const params = [page.name, page.id, page.churchId];
         return DB.query(query, params).then(() => { return page });
     }
 

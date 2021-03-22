@@ -2,7 +2,7 @@ import { controller, httpPost, httpGet, httpDelete, requestParam } from "inversi
 import { Page } from "../models";
 import express from "express";
 import { CustomBaseController } from "./CustomBaseController";
-import { Permissions } from "../helpers";
+import { Permissions, FileHelper } from "../helpers";
 
 @controller("/pages")
 export class PageController extends CustomBaseController {
@@ -32,6 +32,11 @@ export class PageController extends CustomBaseController {
                 pages.forEach((page) => {
                     if (page.churchId === au.churchId) promises.push(
                         this.baseRepositories.page.save(page).then(async (p) => {
+                            if (page.content !== null && page.content !== "") {
+                                const buffer = Buffer.from(page.content, "binary");
+                                const path = au.churchId + "/pages/" + page.id + ".html";
+                                await FileHelper.store(path, "text/html", buffer);
+                            }
                             return p;
                         })
                     )
@@ -46,7 +51,10 @@ export class PageController extends CustomBaseController {
     public async delete(@requestParam("id") id: string, req: express.Request, res: express.Response): Promise<void> {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess(Permissions.pages.edit)) return this.json({}, 401);
-            else this.baseRepositories.page.delete(id, au.churchId);
+            else {
+                await this.baseRepositories.page.delete(id, au.churchId);
+                await FileHelper.remove(au.churchId + "/pages/" + id + ".html");
+            }
         });
     }
 
