@@ -29,6 +29,7 @@ export class LoggingHelper {
         this.pendingMessages = true;
         if (process.env.API_ENV === "dev") console.log(msg);
         this._logger.error(msg);
+        this._logger.error(new Error().stack.toString());
     }
 
     public info(msg: string | object) {
@@ -53,7 +54,7 @@ export class LoggingHelper {
 
         if (this.logDestination === "cloudwatch") {
             this.wc = new WinstonCloudWatch({ logGroupName: this.logGroupName, logStreamName: streamName });
-            this._logger = winston.createLogger({ transports: [this.wc], format: winston.format.json() });
+            this._logger = winston.createLogger({ transports: [this.wc], format: winston.format.json(), });
         } else this._logger = winston.createLogger({ transports: [new winston.transports.Console()], format: winston.format.json() });
         this._logger.info("Logger initialized");
     }

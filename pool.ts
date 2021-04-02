@@ -8,12 +8,14 @@ export class Pool {
 
     public static initPool() {
         Pool.current = mysql.createPool({
-            connectionLimit: 10, // process.env.CONNECTION_LIMIT,
+            connectionLimit: 3, // process.env.CONNECTION_LIMIT,
             host: process.env.DB_HOST,
             database: process.env.DB_DATABASE,
             user: process.env.DB_USER,
             password: process.env.DB_PASSWORD,
             multipleStatements: true,
+            waitForConnections: true,
+            queueLimit: 50,
             typeCast: function castField(field, useDefaultTypeCasting) {
                 // convert bit(1) to bool
                 if ((field.type === "BIT") && (field.length === 1)) {
@@ -22,9 +24,7 @@ export class Pool {
                         return (bytes[0] === 1);
                     } catch (e) { return false; }
                 }
-
                 return (useDefaultTypeCasting());
-
             }
         });
     }
