@@ -6,7 +6,7 @@ CREATE TABLE `links` (
   `category` varchar(45) DEFAULT NULL,
   `url` varchar(255) DEFAULT NULL,
   `linkType` varchar(45) DEFAULT NULL,
-  `linkData` varchar(45) DEFAULT NULL,
+  `linkData` varchar(255) DEFAULT NULL,
   `icon` varchar(45) DEFAULT NULL,
   `text` varchar(255) DEFAULT NULL,
   `sort` char(11) DEFAULT NULL,

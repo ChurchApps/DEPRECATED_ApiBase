@@ -16,8 +16,8 @@ export class PageRepository {
     }
 
     public async update(page: Page) {
-        const query = "UPDATE pages SET name=?, lastModified=NOW() WHERE id=? AND churchId=?;";
-        const params = [page.name, page.id, page.churchId];
+        const query = "UPDATE pages SET name=?, path=?, lastModified=NOW() WHERE id=? AND churchId=?;";
+        const params = [page.name, page.path, page.id, page.churchId];
         return DB.query(query, params).then(() => { return page });
     }
 
