@@ -33,6 +33,10 @@ export class SettingRepository {
         return DB.query("SELECT * FROM settings WHERE churchId=? AND public=?", [churchId, 1])
     }
 
+    public async loadMulipleChurches(keyNames: string[], churchIds: string[]) {
+        return DB.query("SELECT * FROM settings WHERE keyName in (?) AND churchId IN (?) AND public=1", [keyNames, churchIds])
+    }
+
     public convertToModel(churchId: string, data: any) {
         const result: Setting = {
             id: data.id,
