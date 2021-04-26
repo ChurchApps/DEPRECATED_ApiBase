@@ -7,16 +7,16 @@ import { UniqueIdHelper } from "../helpers";
 @injectable()
 export class NoteRepository {
 
-    public async save(note: Note) {
+    public save(note: Note) {
         if (UniqueIdHelper.isMissing(note.id)) return this.create(note); else return this.update(note);
     }
 
     public async create(note: Note) {
         note.id = UniqueIdHelper.shortId();
-        return DB.query(
-            "INSERT INTO notes (id, churchId, contentType, contentId, noteType, addedBy, dateAdded, contents) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?);",
-            [note.id, note.churchId, note.contentType, note.contentId, note.contentType, note.addedBy, note.contents]
-        ).then(() => { return note; });
+        const sql = "INSERT INTO notes (id, churchId, contentType, contentId, noteType, addedBy, dateAdded, contents) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?);";
+        const params = [note.id, note.churchId, note.contentType, note.contentId, note.contentType, note.addedBy, note.contents]
+        await DB.query(sql, params);
+        return note;
     }
 
     public async update(note: Note) {
@@ -26,19 +26,19 @@ export class NoteRepository {
         ).then(() => { return note });
     }
 
-    public async delete(churchId: string, id: string) {
-        DB.query("DELETE FROM notes WHERE id=? AND churchId=?;", [id, churchId]);
+    public delete(churchId: string, id: string) {
+        return DB.query("DELETE FROM notes WHERE id=? AND churchId=?;", [id, churchId]);
     }
 
-    public async load(churchId: string, id: string) {
+    public load(churchId: string, id: string) {
         return DB.queryOne("SELECT * FROM notes WHERE id=? AND churchId=?;", [id, churchId]);
     }
 
-    public async loadForContent(churchId: string, contentType: string, contentId: string) {
+    public loadForContent(churchId: string, contentType: string, contentId: string) {
         return DB.query("SELECT n.*, p.photoUpdated, p.displayName FROM notes n INNER JOIN people p on p.churchId=n.churchId AND p.userId=n.addedBy WHERE n.churchId=? AND n.contentType=? AND n.contentId=?;", [churchId, contentType, contentId]);
     }
 
-    public async loadAll(churchId: string) {
+    public loadAll(churchId: string) {
         return DB.query("SELECT * FROM notes WHERE churchId=?;", [churchId]);
     }
 

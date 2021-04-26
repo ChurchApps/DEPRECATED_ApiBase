@@ -6,7 +6,7 @@ import { UniqueIdHelper } from "../helpers";
 @injectable()
 export class QuestionRepository {
 
-    public async save(question: Question) {
+    public save(question: Question) {
         if (UniqueIdHelper.isMissing(question.id)) return this.create(question); else return this.update(question);
     }
 
@@ -14,29 +14,30 @@ export class QuestionRepository {
         question.id = UniqueIdHelper.shortId();
         const sql = "INSERT INTO questions (id, churchId, formId, parentId, title, description, fieldType, placeholder, sort, choices, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);";
         const params = [question.id, question.churchId, question.formId, question.parentId, question.title, question.description, question.fieldType, question.placeholder, question.sort, JSON.stringify(question.choices)];
-        return DB.query(sql, params).then(() => { return question; });
+        await DB.query(sql, params);
+        return question;
     }
 
     public async update(question: Question) {
-        return DB.query(
-            "UPDATE questions SET formId=?, parentId=?, title=?, description=?, fieldType=?, placeholder=?, sort=?, choices=? WHERE id=? and churchId=?",
-            [question.formId, question.parentId, question.title, question.description, question.fieldType, question.placeholder, question.sort, JSON.stringify(question.choices), question.id, question.churchId]
-        ).then(() => { return question });
+        const sql = "UPDATE questions SET formId=?, parentId=?, title=?, description=?, fieldType=?, placeholder=?, sort=?, choices=? WHERE id=? and churchId=?";
+        const params = [question.formId, question.parentId, question.title, question.description, question.fieldType, question.placeholder, question.sort, JSON.stringify(question.choices), question.id, question.churchId];
+        await DB.query(sql, params);
+        return question;
     }
 
-    public async delete(churchId: string, id: string) {
-        DB.query("UPDATE questions SET removed=1 WHERE id=? AND churchId=?;", [id, churchId]);
+    public delete(churchId: string, id: string) {
+        return DB.query("UPDATE questions SET removed=1 WHERE id=? AND churchId=?;", [id, churchId]);
     }
 
-    public async load(churchId: string, id: string) {
+    public load(churchId: string, id: string) {
         return DB.queryOne("SELECT * FROM questions WHERE id=? AND churchId=? AND removed=0;", [id, churchId]);
     }
 
-    public async loadAll(churchId: string) {
+    public loadAll(churchId: string) {
         return DB.query("SELECT * FROM questions WHERE churchId=? AND removed=0;", [churchId]);
     }
 
-    public async loadForForm(churchId: string, formId: string) {
+    public loadForForm(churchId: string, formId: string) {
         return DB.query("SELECT * FROM questions WHERE churchId=? AND formId=? AND removed=0;", [churchId, formId]);
     }
 
