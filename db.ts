@@ -35,7 +35,7 @@ export class DB {
     }
 
     public static async queryOne(sql: string, params: any[]) {
-        const result: any = this.query(sql, params);
+        const result: any = await this.query(sql, params);
         return result.length > 0 ? result[0] : null;
     }
 }
