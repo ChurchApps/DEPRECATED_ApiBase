@@ -6,38 +6,38 @@ import { UniqueIdHelper } from "../helpers";
 @injectable()
 export class FormRepository {
 
-    public async save(form: Form) {
+    public save(form: Form) {
         if (UniqueIdHelper.isMissing(form.id)) return this.create(form); else return this.update(form);
     }
 
     public async create(form: Form) {
         form.id = UniqueIdHelper.shortId();
-        return DB.query(
-            "INSERT INTO forms (id, churchId, name, contentType, createdTime, modifiedTime, removed) VALUES (?, ?, ?, ?, NOW(), NOW(), 0);",
-            [form.id, form.churchId, form.name, form.contentType]
-        ).then(() => { return form; });
+        const sql = "INSERT INTO forms (id, churchId, name, contentType, createdTime, modifiedTime, removed) VALUES (?, ?, ?, ?, NOW(), NOW(), 0);";
+        const params = [form.id, form.churchId, form.name, form.contentType];
+        await DB.query(sql, params);
+        return form;
     }
 
     public async update(form: Form) {
-        return DB.query(
-            "UPDATE forms SET name=?, contentType=?, modifiedTime=NOW() WHERE id=? and churchId=?",
-            [form.name, form.contentType, form.id, form.churchId]
-        ).then(() => { return form });
+        const sql = "UPDATE forms SET name=?, contentType=?, modifiedTime=NOW() WHERE id=? and churchId=?";
+        const params = [form.name, form.contentType, form.id, form.churchId];
+        await DB.query(sql, params);
+        return form;
     }
 
-    public async delete(churchId: string, id: string) {
-        DB.query("UPDATE forms SET removed=1 WHERE id=? AND churchId=?;", [id, churchId]);
+    public delete(churchId: string, id: string) {
+        return DB.query("UPDATE forms SET removed=1 WHERE id=? AND churchId=?;", [id, churchId]);
     }
 
-    public async load(churchId: string, id: string) {
+    public load(churchId: string, id: string) {
         return DB.queryOne("SELECT * FROM forms WHERE id=? AND churchId=? AND removed=0;", [id, churchId]);
     }
 
-    public async loadAll(churchId: string) {
+    public loadAll(churchId: string) {
         return DB.query("SELECT * FROM forms WHERE churchId=? AND removed=0;", [churchId]);
     }
 
-    public async loadByIds(churchId: string, ids: string[]) {
+    public loadByIds(churchId: string, ids: string[]) {
         const sql = "SELECT * FROM forms WHERE churchId=? AND removed=0 AND id IN (" + ids.join(",") + ") ORDER by name";
         return DB.query(sql, [churchId]);
     }

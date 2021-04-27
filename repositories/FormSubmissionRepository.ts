@@ -7,7 +7,7 @@ import { UniqueIdHelper } from "../helpers";
 @injectable()
 export class FormSubmissionRepository {
 
-    public async save(formSubmission: FormSubmission) {
+    public save(formSubmission: FormSubmission) {
         if (UniqueIdHelper.isMissing(formSubmission.id)) return this.create(formSubmission); else return this.update(formSubmission);
     }
 
@@ -15,35 +15,34 @@ export class FormSubmissionRepository {
         const submissionDate = DateTimeHelper.toMysqlDate(formSubmission.submissionDate);
         const revisionDate = DateTimeHelper.toMysqlDate(formSubmission.revisionDate);
         formSubmission.id = UniqueIdHelper.shortId();
-        return DB.query(
-            "INSERT INTO formSubmissions (id, churchId, formId, contentType, contentId, submissionDate, submittedBy, revisionDate, revisedBy) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);",
-            [formSubmission.id, formSubmission.churchId, formSubmission.formId, formSubmission.contentType, formSubmission.contentId, submissionDate, formSubmission.submittedBy, revisionDate, formSubmission.revisedBy]
-        ).then(() => { return formSubmission; });
+        const sql = "INSERT INTO formSubmissions (id, churchId, formId, contentType, contentId, submissionDate, submittedBy, revisionDate, revisedBy) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        const params = [formSubmission.id, formSubmission.churchId, formSubmission.formId, formSubmission.contentType, formSubmission.contentId, submissionDate, formSubmission.submittedBy, revisionDate, formSubmission.revisedBy];
+        await DB.query(sql, params);
+        return formSubmission;
     }
 
     public async update(formSubmission: FormSubmission) {
-        return DB.query(
-            "UPDATE formSubmissions SET revisionDate=NOW(), contentId=?, revisedBy=? WHERE id=? and churchId=?",
-            [formSubmission.contentId, formSubmission.revisedBy, formSubmission.id, formSubmission.churchId]
-        ).then(() => { return formSubmission });
+        const sql = "UPDATE formSubmissions SET revisionDate=NOW(), contentId=?, revisedBy=? WHERE id=? and churchId=?";
+        const params = [formSubmission.contentId, formSubmission.revisedBy, formSubmission.id, formSubmission.churchId];
+        await DB.query(sql, params);
+        return formSubmission;
     }
 
-    public async delete(churchId: string, id: string) {
+    public delete(churchId: string, id: string) {
         const sql = "DELETE FROM formSubmissions WHERE id=? AND churchId=?;";
-        // const params = [id, churchId];  //I can't figure ot why, but "id" is a string here.
-        const params = [parseInt(id.toString(), 0), churchId];
-        DB.query(sql, params);
+        const params = [id, churchId];
+        return DB.query(sql, params);
     }
 
-    public async load(churchId: string, id: string) {
+    public load(churchId: string, id: string) {
         return DB.queryOne("SELECT * FROM formSubmissions WHERE id=? AND churchId=?;", [id, churchId]);
     }
 
-    public async loadAll(churchId: string) {
+    public loadAll(churchId: string) {
         return DB.query("SELECT * FROM formSubmissions WHERE churchId=?;", [churchId]);
     }
 
-    public async loadForContent(churchId: string, contentType: string, contentId: string) {
+    public loadForContent(churchId: string, contentType: string, contentId: string) {
         return DB.query("SELECT * FROM formSubmissions WHERE churchId=? AND contentType=? AND contentId=?;", [churchId, contentType, contentId]);
     }
 

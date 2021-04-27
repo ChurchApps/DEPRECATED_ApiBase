@@ -12,24 +12,26 @@ export class PageRepository {
         page.id = UniqueIdHelper.shortId();
         const query = "INSERT INTO pages (id, churchId, name, path, lastModified) VALUES (?, ?, ?, ?, NOW());";
         const params = [page.id, page.churchId, page.name, page.path];
-        return DB.query(query, params).then(() => { return page; });
+        await DB.query(query, params);
+        return page;
     }
 
     public async update(page: Page) {
         const query = "UPDATE pages SET name=?, path=?, lastModified=NOW() WHERE id=? AND churchId=?;";
         const params = [page.name, page.path, page.id, page.churchId];
-        return DB.query(query, params).then(() => { return page });
+        await DB.query(query, params);
+        return page;
     }
 
-    public async delete(id: string, churchId: string) {
-        DB.query("DELETE FROM pages WHERE id=? AND churchId=?;", [id, churchId]);
+    public delete(id: string, churchId: string) {
+        return DB.query("DELETE FROM pages WHERE id=? AND churchId=?;", [id, churchId]);
     }
 
-    public async loadById(id: string, churchId: string): Promise<Page> {
+    public loadById(id: string, churchId: string): Promise<Page> {
         return DB.queryOne("SELECT * FROM pages WHERE id=? AND churchId=?;", [id, churchId]);
     }
 
-    public async loadAll(churchId: string): Promise<Page[]> {
+    public loadAll(churchId: string): Promise<Page[]> {
         return DB.query("SELECT * FROM pages WHERE churchId=?;", [churchId]);
     }
 
