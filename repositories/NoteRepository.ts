@@ -20,10 +20,10 @@ export class NoteRepository {
     }
 
     public async update(note: Note) {
-        return DB.query(
-            "UPDATE notes SET contentType=?, contentId=?, noteType=?, contents=? WHERE id=? and churchId=?",
-            [note.contentType, note.contentId, note.contentType, note.contents, note.id, note.churchId]
-        ).then(() => { return note });
+        const sql = "UPDATE notes SET contentType=?, contentId=?, noteType=?, contents=? WHERE id=? and churchId=?";
+        const params = [note.contentType, note.contentId, note.contentType, note.contents, note.id, note.churchId];
+        await DB.query(sql, params);
+        return note;
     }
 
     public delete(churchId: string, id: string) {
