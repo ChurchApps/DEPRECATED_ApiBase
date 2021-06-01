@@ -38,7 +38,8 @@ export class FormRepository {
     }
 
     public loadByIds(churchId: string, ids: string[]) {
-        const sql = "SELECT * FROM forms WHERE churchId=? AND removed=0 AND id IN (" + ids.join(",") + ") ORDER by name";
+        const quotedAndCommaSeparated = ids.length === 0 ? "" : "'" + ids.join("','") + "'";
+        const sql = "SELECT * FROM forms WHERE churchId=? AND removed=0 AND id IN (" + quotedAndCommaSeparated + ") ORDER by name";
         return DB.query(sql, [churchId]);
     }
 
