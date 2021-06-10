@@ -2,7 +2,8 @@ import { controller, httpPost, httpGet, interfaces, requestParam } from "inversi
 import express from "express"
 import { Setting } from "../models"
 import { CustomBaseController } from "./CustomBaseController"
-import { Permissions } from "../helpers"
+import { Permissions, FileHelper } from "../helpers"
+
 
 @controller("/settings")
 export class SettingController extends CustomBaseController {
@@ -25,7 +26,7 @@ export class SettingController extends CustomBaseController {
                 const promises: Promise<Setting>[] = []
                 req.body.forEach(setting => {
                     setting.churchId = au.churchId;
-                    promises.push(this.baseRepositories.setting.save(setting));
+                    promises.push(this.saveSetting(setting));
                 })
                 const result = await Promise.all(promises);
                 return this.baseRepositories.setting.convertAllToModel(au.churchId, result);
@@ -47,4 +48,20 @@ export class SettingController extends CustomBaseController {
             return this.internalServerError(e);
         }
     }
+
+    private async saveSetting(setting: Setting) {
+        if (setting.value.startsWith("data:image/png;base64,")) setting = await this.saveImage(setting);
+        setting = await this.baseRepositories.setting.save(setting);
+        return setting;
+    }
+
+    private async saveImage(setting: Setting) {
+        const base64 = setting.value.split(',')[1];
+        const key = "/" + setting.churchId + "/settings/" + setting.keyName + ".png";
+        await FileHelper.store(key, "image/png", Buffer.from(base64, 'base64'));
+        const photoUpdated = new Date();
+        setting.value = process.env.CONTENT_ROOT + key + "?dt=" + photoUpdated.getTime().toString();
+        return setting;
+    }
+
 }
