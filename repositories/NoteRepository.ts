@@ -35,7 +35,7 @@ export class NoteRepository {
     }
 
     public loadForContent(churchId: string, contentType: string, contentId: string) {
-        return DB.query("SELECT n.*, p.photoUpdated, p.displayName FROM notes n INNER JOIN people p on p.churchId=n.churchId AND p.userId=n.addedBy WHERE n.churchId=? AND n.contentType=? AND n.contentId=?;", [churchId, contentType, contentId]);
+        return DB.query("SELECT n.*, p.photoUpdated, p.displayName, p.id as personId FROM notes n INNER JOIN people p on p.churchId=n.churchId AND p.userId=n.addedBy WHERE n.churchId=? AND n.contentType=? AND n.contentId=?;", [churchId, contentType, contentId]);
     }
 
     public loadAll(churchId: string) {
@@ -45,7 +45,7 @@ export class NoteRepository {
 
     public convertToModel(churchId: string, data: any) {
         const result: Note = {
-            person: { photoUpdated: data.photoUpdate, name: { display: data.displayName } },
+            person: { id: data.personId, photoUpdated: data.photoUpdated, name: { display: data.displayName } },
             contentId: data.contentId, contentType: data.contentType, contents: data.contents, id: data.id, addedBy: data.addedBy, dateAdded: data.dateAdded, noteType: data.noteType
         }
         result.person.photo = PersonHelper.getPhotoUrl(churchId, result.person);
