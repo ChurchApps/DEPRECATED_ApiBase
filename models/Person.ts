@@ -1,6 +1,4 @@
-import { ContactInfo } from "./tmpContactInfo"
-import { Name } from "./tmpName"
-import { FormSubmission } from "./FormSubmission";
+import { ContactInfo, Name, FormSubmission } from "."
 
 export class Person {
     public id?: string;

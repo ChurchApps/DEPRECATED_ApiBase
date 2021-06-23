@@ -1,8 +1,7 @@
 import { injectable } from "inversify";
 import { DB } from "../db";
 import { Note } from "../models";
-import { PersonHelper } from "../helpers/tmpPersonHelper";
-import { UniqueIdHelper } from "../helpers";
+import { PersonHelper, UniqueIdHelper } from "../helpers";
 
 @injectable()
 export class NoteRepository {

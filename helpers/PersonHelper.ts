@@ -1,4 +1,4 @@
-import { Person } from "../models/tmpPerson"
+import { Person } from "../models/Person"
 
 export class PersonHelper {
     public static getPhotoUrl(churchId: string, person: Person) {
