@@ -2,7 +2,6 @@ import { Principal } from "./"
 import { IPermission } from "../helpers/Interfaces";
 
 export class AuthenticatedUser {
-    // public details: any;
     public id: string;
     public churchId: string;
     public email: string;
@@ -14,6 +13,7 @@ export class AuthenticatedUser {
         this.churchId = principal.details.churchId;
         this.permissions = principal.details.permissions;
         this.apiName = principal.details.apiName;
+        this.email = principal.details.email;
     }
 
     public checkAccess(permission: IPermission) {
@@ -22,16 +22,4 @@ export class AuthenticatedUser {
         this.permissions?.forEach((p: string) => { if (p === key) result = true; });
         return result;
     }
-
-    /*
-    public checkAccess(contentType: string, action: string) {
-        const key = contentType + "__" + action;
-        let result = false;
-        this.permissions.forEach((p: string) => { if (p === key) result = true; });
-        return result;
-    }
-    */
-
-
-
 }
