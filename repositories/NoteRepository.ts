@@ -32,7 +32,7 @@ export class NoteRepository {
     public load(churchId: string, id: string) {
         return DB.queryOne("SELECT * FROM notes WHERE id=? AND churchId=?;", [id, churchId]);
     }
-
+    // TODO - userid is not present in people table anymore. so fix this!
     public loadForContent(churchId: string, contentType: string, contentId: string) {
         return DB.query("SELECT n.*, p.photoUpdated, p.displayName, p.id as personId FROM notes n INNER JOIN people p on p.churchId=n.churchId AND p.userId=n.addedBy WHERE n.churchId=? AND n.contentType=? AND n.contentId=?;", [churchId, contentType, contentId]);
     }
