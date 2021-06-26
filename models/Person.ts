@@ -3,7 +3,6 @@ import { ContactInfo, Name, FormSubmission } from "."
 export class Person {
     public id?: string;
     public churchId?: string;
-    public userId?: string;
     public name?: Name;
     public contactInfo?: ContactInfo;
     public birthDate?: Date;
