@@ -39,7 +39,7 @@ export class NoteController extends CustomBaseController {
             if (!au.checkAccess(Permissions.notes.edit)) return this.json({}, 401);
             else {
                 const promises: Promise<Note>[] = [];
-                req.body.forEach(note => { note.churchId = au.churchId; note.addedBy = au.id; promises.push(this.baseRepositories.note.save(note)); });
+                req.body.forEach(note => { note.churchId = au.churchId; note.addedBy = au.personId; promises.push(this.baseRepositories.note.save(note)); });
                 const result = await Promise.all(promises);
                 return this.baseRepositories.note.convertAllToModel(au.churchId, result);
             }
@@ -53,8 +53,5 @@ export class NoteController extends CustomBaseController {
             else await this.baseRepositories.note.delete(au.churchId, id);
         });
     }
-
-
-
 
 }
