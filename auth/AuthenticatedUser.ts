@@ -7,6 +7,7 @@ export class AuthenticatedUser {
     public email: string;
     public apiName: string;
     public permissions: string[];
+    public personId: string;
 
     public constructor(principal: Principal) {
         this.id = principal.details.id;
@@ -14,6 +15,7 @@ export class AuthenticatedUser {
         this.permissions = principal.details.permissions;
         this.apiName = principal.details.apiName;
         this.email = principal.details.email;
+        this.personId = principal.details.personId;
     }
 
     public checkAccess(permission: IPermission) {
