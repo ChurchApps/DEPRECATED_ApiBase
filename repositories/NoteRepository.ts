@@ -12,7 +12,7 @@ export class NoteRepository {
 
     public async create(note: Note) {
         note.id = UniqueIdHelper.shortId();
-        const sql = "INSERT INTO notes (id, churchId, contentType, contentId, noteType, addedBy, createdAt, contents) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?);";
+        const sql = "INSERT INTO notes (id, churchId, contentType, contentId, noteType, addedBy, createdAt, updatedAt, contents) VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW(), ?);";
         const params = [note.id, note.churchId, note.contentType, note.contentId, note.contentType, note.addedBy, note.contents]
         await DB.query(sql, params);
         return note;
@@ -34,7 +34,7 @@ export class NoteRepository {
     }
 
     public loadForContent(churchId: string, contentType: string, contentId: string) {
-        return DB.query("SELECT n.*, p.photoUpdated, p.displayName, p.id as personId FROM notes n INNER JOIN people p on p.churchId=n.churchId AND p.id=n.addedBy WHERE n.churchId=? AND n.contentType=? AND n.contentId=?;", [churchId, contentType, contentId]);
+        return DB.query("SELECT n.*, p.photoUpdated, p.displayName, p.id as personId FROM notes n INNER JOIN people p on p.churchId=n.churchId AND p.id=n.addedBy WHERE n.churchId=? AND n.contentType=? AND n.contentId=? ORDER BY updatedAt DESC;", [churchId, contentType, contentId]);
     }
 
     public loadAll(churchId: string) {
