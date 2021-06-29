@@ -10,7 +10,7 @@ export class NoteRepository {
         if (UniqueIdHelper.isMissing(note.id)) return this.create(note); else return this.update(note);
     }
 
-    public async create(note: Note) {
+    private async create(note: Note) {
         note.id = UniqueIdHelper.shortId();
         const sql = "INSERT INTO notes (id, churchId, contentType, contentId, noteType, addedBy, createdAt, updatedAt, contents) VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW(), ?);";
         const params = [note.id, note.churchId, note.contentType, note.contentId, note.contentType, note.addedBy, note.contents]
@@ -18,7 +18,7 @@ export class NoteRepository {
         return note;
     }
 
-    public async update(note: Note) {
+    private async update(note: Note) {
         const sql = "UPDATE notes SET contentType=?, contentId=?, noteType=?, contents=?, updatedAt=NOW() WHERE id=? and churchId=?";
         const params = [note.contentType, note.contentId, note.contentType, note.contents, note.id, note.churchId];
         await DB.query(sql, params);

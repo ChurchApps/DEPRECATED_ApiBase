@@ -8,7 +8,7 @@ export class PageRepository {
         if (UniqueIdHelper.isMissing(page.id)) return this.create(page); else return this.update(page);
     }
 
-    public async create(page: Page) {
+    private async create(page: Page) {
         page.id = UniqueIdHelper.shortId();
         const query = "INSERT INTO pages (id, churchId, name, path, lastModified) VALUES (?, ?, ?, ?, NOW());";
         const params = [page.id, page.churchId, page.name, page.path];
@@ -16,7 +16,7 @@ export class PageRepository {
         return page;
     }
 
-    public async update(page: Page) {
+    private async update(page: Page) {
         const query = "UPDATE pages SET name=?, path=?, lastModified=NOW() WHERE id=? AND churchId=?;";
         const params = [page.name, page.path, page.id, page.churchId];
         await DB.query(query, params);
