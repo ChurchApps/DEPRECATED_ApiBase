@@ -11,6 +11,5 @@ CREATE TABLE `notes` (
   `updatedAt` datetime DEFAULT NULL,
   `contents` text,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `churchId` (`churchId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

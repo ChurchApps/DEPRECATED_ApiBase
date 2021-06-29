@@ -7,6 +7,5 @@ CREATE TABLE `pages` (
   `path` varchar(255) DEFAULT NULL,
   `lastModified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `churchId` (`churchId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

@@ -10,7 +10,7 @@ export class SettingRepository {
         if (UniqueIdHelper.isMissing(setting.id)) return this.create(setting); else return this.update(setting);
     }
 
-    public async create(setting: Setting) {
+    private async create(setting: Setting) {
         setting.id = UniqueIdHelper.shortId();
         const sql = "INSERT INTO settings (id, churchId, keyName, value, public) VALUES (?, ?, ?, ?, ?)";
         const params = [setting.id, setting.churchId, setting.keyName, setting.value, setting.public];
@@ -18,7 +18,7 @@ export class SettingRepository {
         return setting;
     }
 
-    public async update(setting: Setting) {
+    private async update(setting: Setting) {
         const sql = "UPDATE settings SET churchId=?, keyName=?, value=?, public=? WHERE id=? AND churchId=?";
         const params = [setting.churchId, setting.keyName, setting.value, setting.public, setting.id, setting.churchId];
         await DB.query(sql, params);

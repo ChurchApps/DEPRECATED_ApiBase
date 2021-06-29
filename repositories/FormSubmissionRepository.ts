@@ -10,7 +10,7 @@ export class FormSubmissionRepository {
         if (UniqueIdHelper.isMissing(formSubmission.id)) return this.create(formSubmission); else return this.update(formSubmission);
     }
 
-    public async create(formSubmission: FormSubmission) {
+    private async create(formSubmission: FormSubmission) {
         const submissionDate = DateTimeHelper.toMysqlDate(formSubmission.submissionDate);
         const revisionDate = DateTimeHelper.toMysqlDate(formSubmission.revisionDate);
         formSubmission.id = UniqueIdHelper.shortId();
@@ -20,7 +20,7 @@ export class FormSubmissionRepository {
         return formSubmission;
     }
 
-    public async update(formSubmission: FormSubmission) {
+    private async update(formSubmission: FormSubmission) {
         const sql = "UPDATE formSubmissions SET revisionDate=NOW(), contentId=?, revisedBy=? WHERE id=? and churchId=?";
         const params = [formSubmission.contentId, formSubmission.revisedBy, formSubmission.id, formSubmission.churchId];
         await DB.query(sql, params);

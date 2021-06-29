@@ -10,7 +10,7 @@ export class QuestionRepository {
         if (UniqueIdHelper.isMissing(question.id)) return this.create(question); else return this.update(question);
     }
 
-    public async create(question: Question) {
+    private async create(question: Question) {
         question.id = UniqueIdHelper.shortId();
         const sql = "INSERT INTO questions (id, churchId, formId, parentId, title, description, fieldType, placeholder, sort, choices, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);";
         const params = [question.id, question.churchId, question.formId, question.parentId, question.title, question.description, question.fieldType, question.placeholder, question.sort, JSON.stringify(question.choices)];
@@ -18,7 +18,7 @@ export class QuestionRepository {
         return question;
     }
 
-    public async update(question: Question) {
+    private async update(question: Question) {
         const sql = "UPDATE questions SET formId=?, parentId=?, title=?, description=?, fieldType=?, placeholder=?, sort=?, choices=? WHERE id=? and churchId=?";
         const params = [question.formId, question.parentId, question.title, question.description, question.fieldType, question.placeholder, question.sort, JSON.stringify(question.choices), question.id, question.churchId];
         await DB.query(sql, params);
