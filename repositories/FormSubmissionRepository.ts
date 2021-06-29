@@ -7,7 +7,7 @@ import { DateTimeHelper, UniqueIdHelper } from '../helpers';
 export class FormSubmissionRepository {
 
     public save(formSubmission: FormSubmission) {
-        if (UniqueIdHelper.isMissing(formSubmission.id)) return this.create(formSubmission); else return this.update(formSubmission);
+        return formSubmission.id ? this.update(formSubmission) : this.create(formSubmission);
     }
 
     private async create(formSubmission: FormSubmission) {

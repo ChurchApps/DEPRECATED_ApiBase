@@ -7,7 +7,7 @@ import { UniqueIdHelper } from "../helpers";
 export class FormRepository {
 
     public save(form: Form) {
-        if (UniqueIdHelper.isMissing(form.id)) return this.create(form); else return this.update(form);
+        return form.id ? this.update(form) : this.create(form);
     }
 
     private async create(form: Form) {
