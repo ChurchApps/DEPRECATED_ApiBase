@@ -12,14 +12,14 @@ export class NoteRepository {
 
     public async create(note: Note) {
         note.id = UniqueIdHelper.shortId();
-        const sql = "INSERT INTO notes (id, churchId, contentType, contentId, noteType, addedBy, dateAdded, contents) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?);";
+        const sql = "INSERT INTO notes (id, churchId, contentType, contentId, noteType, addedBy, createdAt, contents) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?);";
         const params = [note.id, note.churchId, note.contentType, note.contentId, note.contentType, note.addedBy, note.contents]
         await DB.query(sql, params);
         return note;
     }
 
     public async update(note: Note) {
-        const sql = "UPDATE notes SET contentType=?, contentId=?, noteType=?, contents=? WHERE id=? and churchId=?";
+        const sql = "UPDATE notes SET contentType=?, contentId=?, noteType=?, contents=?, updatedAt=NOW() WHERE id=? and churchId=?";
         const params = [note.contentType, note.contentId, note.contentType, note.contents, note.id, note.churchId];
         await DB.query(sql, params);
         return note;
@@ -45,7 +45,7 @@ export class NoteRepository {
     public convertToModel(churchId: string, data: any) {
         const result: Note = {
             person: { id: data.personId, photoUpdated: data.photoUpdated, name: { display: data.displayName } },
-            contentId: data.contentId, contentType: data.contentType, contents: data.contents, id: data.id, addedBy: data.addedBy, dateAdded: data.dateAdded, noteType: data.noteType
+            contentId: data.contentId, contentType: data.contentType, contents: data.contents, id: data.id, addedBy: data.addedBy, createdAt: data.createdAt, noteType: data.noteType, updatedAt: data.updatedAt
         }
         result.person.photo = PersonHelper.getPhotoUrl(churchId, result.person);
         return result;
