@@ -7,7 +7,7 @@ import { UniqueIdHelper } from "../helpers";
 export class QuestionRepository {
 
     public save(question: Question) {
-        if (UniqueIdHelper.isMissing(question.id)) return this.create(question); else return this.update(question);
+        return question.id ? this.update(question) : this.create(question);
     }
 
     private async create(question: Question) {
