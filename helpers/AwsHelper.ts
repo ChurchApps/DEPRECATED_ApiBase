@@ -30,7 +30,8 @@ export class AwsHelper {
       params.Conditions = [
         { acl: "public-read" },
         { bucket: AwsHelper._s3Bucket },
-        { key }
+        { key },
+        ["starts-with", "$Content-Type", ""],
       ];
 
       params.Expires = 1200;
