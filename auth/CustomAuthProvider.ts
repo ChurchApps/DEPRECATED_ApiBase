@@ -11,6 +11,7 @@ export class CustomAuthProvider implements interfaces.AuthProvider {
     const authHeader = req.headers.authorization;
     if (authHeader) {
       const token = authHeader.split(" ")[1];
+      if (!token) return null;
       const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
       return decoded ? new Principal(decoded) : null;
