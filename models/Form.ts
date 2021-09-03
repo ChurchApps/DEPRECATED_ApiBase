@@ -7,6 +7,6 @@ export class Form {
     public contentType?: string;
     public createdTime?: Date;
     public modifiedTime?: Date;
-
+    public restricted?: boolean;
     public questions?: Question[]
 }
