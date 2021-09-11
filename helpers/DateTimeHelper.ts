@@ -1,10 +1,11 @@
+import dayjs from "dayjs"
+
 export class DateTimeHelper {
     public static toMysqlDate(d: Date) {
         if (d === null || d === undefined) {
             return undefined;
         }
-        const date = new Date(d);
-        return date.toISOString().slice(0, 19).replace("T", " ");
+        return dayjs(d).format("YYYY-MM-DD HH:mm:ss")
     }
 
     public static subtractHoursFromNow(hour: number) {
