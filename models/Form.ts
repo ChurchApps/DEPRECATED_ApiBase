@@ -7,6 +7,10 @@ export class Form {
     public contentType?: string;
     public createdTime?: Date;
     public modifiedTime?: Date;
+    public accessStartTime?: Date;
+    public accessEndTime?: Date;
     public restricted?: boolean;
-    public questions?: Question[]
+    public questions?: Question[];
+    public archived?: boolean;
+    public action?: string;
 }
