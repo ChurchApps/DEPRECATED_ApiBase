@@ -9,4 +9,5 @@ export class Question {
     public placeholder?: string;
     public sort?: string;
     public choices?: string;
+    public required?: boolean;
 }
