@@ -3,6 +3,7 @@ import { interfaces } from "inversify-express-utils";
 import express from "express";
 import jwt from "jsonwebtoken";
 import { Principal } from "./";
+import { EnvironmentBase } from "..";
 
 @injectable()
 export class CustomAuthProvider implements interfaces.AuthProvider {
@@ -12,7 +13,7 @@ export class CustomAuthProvider implements interfaces.AuthProvider {
     if (authHeader) {
       const token = authHeader.split(" ")[1];
       if (!token) return null;
-      const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+      const decoded = jwt.verify(token, EnvironmentBase.jwtSecret);
 
       return decoded ? new Principal(decoded) : null;
     }

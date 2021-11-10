@@ -1,9 +1,10 @@
 import { AwsHelper } from "./AwsHelper";
 import fs from "fs";
 import path from "path";
+import { EnvironmentBase } from ".";
 
 export class FileHelper {
-  private static fileStore = process.env.FILE_STORE;
+  private static fileStore = EnvironmentBase.fileStore;
   private static rootPath = path.resolve("./content") + "/";
 
   static store = async (key: string, contentType: string, contents: Buffer) => {

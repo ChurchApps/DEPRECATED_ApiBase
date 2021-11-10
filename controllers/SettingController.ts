@@ -2,7 +2,7 @@ import { controller, httpPost, httpGet, interfaces, requestParam } from "inversi
 import express from "express"
 import { Setting } from "../models"
 import { CustomBaseController } from "./CustomBaseController"
-import { Permissions, FileHelper } from "../helpers"
+import { Permissions, FileHelper, EnvironmentBase } from "../helpers"
 
 
 @controller("/settings")
@@ -60,7 +60,7 @@ export class SettingController extends CustomBaseController {
     const key = "/" + setting.churchId + "/settings/" + setting.keyName + ".png";
     await FileHelper.store(key, "image/png", Buffer.from(base64, 'base64'));
     const photoUpdated = new Date();
-    setting.value = process.env.CONTENT_ROOT + key + "?dt=" + photoUpdated.getTime().toString();
+    setting.value = EnvironmentBase.contentRoot + key + "?dt=" + photoUpdated.getTime().toString();
     return setting;
   }
 
