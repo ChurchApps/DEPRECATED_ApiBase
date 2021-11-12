@@ -4,25 +4,24 @@ import path from "path";
 import { EnvironmentBase } from ".";
 
 export class FileHelper {
-  private static fileStore = EnvironmentBase.fileStore;
   private static rootPath = path.resolve("./content") + "/";
 
   static store = async (key: string, contentType: string, contents: Buffer) => {
-    switch (FileHelper.fileStore) {
+    switch (EnvironmentBase.fileStore) {
       case "S3": await AwsHelper.S3Upload(key, contentType, contents); break;
       default: await FileHelper.storeLocal(key, contents); break;
     }
   }
 
   static remove = async (key: string) => {
-    switch (FileHelper.fileStore) {
+    switch (EnvironmentBase.fileStore) {
       case "S3": await AwsHelper.S3Remove(key); break;
       default: await FileHelper.removeLocal(key); break;
     }
   }
 
   static removeFolder = async (key: string) => {
-    switch (FileHelper.fileStore) {
+    switch (EnvironmentBase.fileStore) {
       case "S3": break; // no need on s3
       default: await FileHelper.removeLocalFolder(key); break;
     }
