@@ -6,6 +6,13 @@ import { EnvironmentBase } from ".";
 export class FileHelper {
   private static rootPath = path.resolve("./content") + "/";
 
+  static move = async (oldKey: string, newKey: string) => {
+    switch (EnvironmentBase.fileStore) {
+      case "S3": await AwsHelper.S3Move(oldKey, newKey); break;
+      default: await FileHelper.moveLocal(oldKey, newKey); break;
+    }
+  }
+
   static store = async (key: string, contentType: string, contents: Buffer) => {
     switch (EnvironmentBase.fileStore) {
       case "S3": await AwsHelper.S3Upload(key, contentType, contents); break;
@@ -32,6 +39,10 @@ export class FileHelper {
     const dirName = path.dirname(fileName);
     if (!fs.existsSync(dirName)) fs.mkdirSync(dirName, { recursive: true });
     fs.writeFileSync(fileName, contents);
+  }
+
+  private static moveLocal = async (oldKey: string, newKey: string) => {
+    fs.rename(oldKey, newKey, err => { throw err; });
   }
 
   private static removeLocal = async (key: string) => {

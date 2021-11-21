@@ -42,6 +42,20 @@ export class AwsHelper {
     });
   }
 
+  static S3Move(oldKey: string, newKey: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const params: AWS.S3.CopyObjectRequest = { Bucket: EnvironmentBase.s3Bucket, Key: newKey, CopySource: EnvironmentBase.s3Bucket + "/" + oldKey }
+      this.S3().copyObject(params, (error: Error, data: AWS.S3.DeleteObjectOutput) => {
+        if (error) reject(error);
+        else {
+          this.S3Remove(oldKey).then(() => {
+            resolve();
+          })
+        }
+      });
+    });
+  }
+
   static S3Remove(key: string): Promise<void> {
     if (key.indexOf("/") === 0) key = key.substring(1, key.length - 1);
     return new Promise((resolve, reject) => {
