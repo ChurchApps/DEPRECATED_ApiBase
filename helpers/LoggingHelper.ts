@@ -54,7 +54,7 @@ export class LoggingHelper {
     else if (EnvironmentBase.appEnv === "prod") this.logDestination = "cloudwatch";
 
     if (this.logDestination === "cloudwatch") {
-      this.wc = new WinstonCloudWatch({ logGroupName: this.logGroupName, logStreamName: streamName });
+      this.wc = new WinstonCloudWatch({ logGroupName: this.logGroupName, logStreamName: streamName, name: this.logGroupName + "_" + streamName });
       this._logger = winston.createLogger({ transports: [this.wc], format: winston.format.json(), });
     } else this._logger = winston.createLogger({ transports: [new winston.transports.Console()], format: winston.format.json() });
     this._logger.info("Logger initialized");
