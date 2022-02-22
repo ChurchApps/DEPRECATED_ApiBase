@@ -28,7 +28,12 @@ export class EmailHelper {
           });
         }
 
-        await transporter.sendMail({ from, to, subject, html: body });
+        if (EnvironmentBase.mailSystem === "") {
+          console.log("****Email server not configured: ");
+          console.log(subject)
+          console.log(body);
+        }
+        else await transporter.sendMail({ from, to, subject, html: body });
         resolve(null);
       } catch (err) {
         reject(err);
