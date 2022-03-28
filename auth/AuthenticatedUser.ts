@@ -23,9 +23,14 @@ export class AuthenticatedUser {
   }
 
   public checkAccess(permission: IPermission) {
-    const key = permission.contentType + "__" + permission.action;
+    const key = (permission.apiName)
+      ? permission.apiName + "_" + permission.contentType + "__" + permission.action
+      : permission.contentType + "__" + permission.action;
+
     let result = false;
-    this.permissions?.forEach((p: string) => { if (p === key) result = true; });
+    this.permissions?.forEach((p: string) => {
+      if (p === key) result = true;
+    });
     return result;
   }
 }
