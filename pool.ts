@@ -19,7 +19,7 @@ export class Pool {
       password: config.password,
       multipleStatements: true,
       waitForConnections: true,
-      queueLimit: 50,
+      queueLimit: 9999,
       typeCast: function castField(field, useDefaultTypeCasting) {
         // convert bit(1) to bool
         if ((field.type === "BIT") && (field.length === 1)) {
