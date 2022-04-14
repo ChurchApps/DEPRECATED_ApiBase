@@ -67,6 +67,25 @@ export class AwsHelper {
     });
   }
 
+
+
+  static async S3Rename(oldKey: string, newKey: string): Promise<void> {
+    console.log("Renaming: " + oldKey + " to " + newKey);
+    await this.S3Copy(oldKey, newKey);
+    await this.S3Remove(oldKey);
+  }
+
+  static S3Copy(oldKey: string, newKey: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const source = "/" + EnvironmentBase.s3Bucket + "/" + oldKey;
+      const params: AWS.S3.CopyObjectRequest = { Bucket: EnvironmentBase.s3Bucket, Key: newKey, CopySource: source, ACL: "public-read" }
+      this.S3().copyObject(params, (error: Error, data: AWS.S3.DeleteObjectOutput) => {
+        if (error) reject(error);
+        else resolve();
+      });
+    });
+  }
+
   static async S3List(path: string): Promise<string[]> {
     return new Promise((resolve, reject) => {
       this.S3().listObjectsV2({ Bucket: EnvironmentBase.s3Bucket, Prefix: path }, (error: Error, data: AWS.S3.ListObjectsV2Output) => {
