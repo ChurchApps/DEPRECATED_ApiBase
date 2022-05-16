@@ -8,6 +8,3 @@ export { Note } from "./Note";
 export { Page } from "./Page";
 export { Question } from "./Question";
 export { Setting } from "./Setting";
-export { ContactInfo } from './ContactInfo';
-export { Name } from './Name';
-export { Person } from './Person';
