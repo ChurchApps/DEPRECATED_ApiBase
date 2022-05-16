@@ -50,7 +50,7 @@ export class ArrayHelper {
           if (item[propertyName] <= value) result.push(item);
           break;
         case "notEqual":
-          if (item[propertyName] != value) result.push(item);
+          if (item[propertyName] !== value) result.push(item);
           break;
       }
     }
