@@ -21,36 +21,53 @@ export class ArrayHelper {
     return result;
   }
 
+  static getUnique(array: any[]) {
+    const result: any[] = []
+    const jsonList: string[] = [];
+    for (const item of array) {
+      const json = JSON.stringify(item);
+      if (jsonList.indexOf(json) === -1) {
+        result.push(item);
+        jsonList.push(json);
+      }
+    }
+    return result;
+  }
+
   static getAllOperator(array: any[], propertyName: string, value: any, operator: string) {
     const result: any[] = []
     for (const item of array) {
+
+      const propVal = item[propertyName]?.toLowerCase() || "";
+      const compVal = value?.toLowerCase() || "";
+
       switch (operator) {
         case "equals":
-          if (item[propertyName] === value) result.push(item);
+          if (propVal === compVal) result.push(item);
           break;
         case "startsWith":
-          if (item[propertyName].indexOf(value) === 0) result.push(item);
+          if (propVal.indexOf(compVal) === 0) result.push(item);
           break;
         case "endsWith":
-          if (item[propertyName].indexOf(value) === item[propertyName].length - value.length) result.push(item);
+          if (propVal.indexOf(compVal) === propVal.length - compVal.length) result.push(item);
           break;
         case "contains":
-          if (item[propertyName].indexOf(value) > -1) result.push(item);
+          if (propVal.indexOf(compVal) > -1) result.push(item);
           break;
         case "greaterThan":
-          if (item[propertyName] > value) result.push(item);
+          if (propVal > compVal) result.push(item);
           break;
         case "greaterThanEqual":
-          if (item[propertyName] >= value) result.push(item);
+          if (propVal >= compVal) result.push(item);
           break;
         case "lessThan":
-          if (item[propertyName] < value) result.push(item);
+          if (propVal < compVal) result.push(item);
           break;
         case "lessThanEqual":
-          if (item[propertyName] <= value) result.push(item);
+          if (propVal <= compVal) result.push(item);
           break;
         case "notEqual":
-          if (item[propertyName] !== value) result.push(item);
+          if (propVal !== compVal) result.push(item);
           break;
       }
     }
