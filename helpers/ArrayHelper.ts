@@ -34,12 +34,20 @@ export class ArrayHelper {
     return result;
   }
 
-  static getAllOperator(array: any[], propertyName: string, value: any, operator: string) {
+  static getAllOperator(array: any[], propertyName: string, value: any, operator: string, dataType = "string") {
     const result: any[] = []
     for (const item of array) {
 
-      const propVal = item[propertyName]?.toLowerCase() || "";
-      const compVal = value?.toLowerCase() || "";
+
+      let propVal = item[propertyName] || "";
+      let compVal = value || "";
+      if (dataType === "number") {
+        propVal = parseFloat(propVal);
+        compVal = parseFloat(compVal);
+      } else if (dataType === "string") {
+        propVal = propVal.toLowerCase();
+        compVal = compVal.toLowerCase();
+      }
 
       switch (operator) {
         case "equals":
