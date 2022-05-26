@@ -34,6 +34,15 @@ export class ArrayHelper {
     return result;
   }
 
+  static getAllOperatorArray(array: any[], propertyName: string, values: any[], operator: string, dataType = "string") {
+    const result:any[] = [];
+    values.forEach(v => {
+      const filtered = this.getAllOperator(array, propertyName, v, operator, dataType);
+      filtered.forEach(f => result.push(f));
+    })
+    return result;
+  }
+
   static getAllOperator(array: any[], propertyName: string, value: any, operator: string, dataType = "string") {
     const result: any[] = []
     for (const item of array) {
