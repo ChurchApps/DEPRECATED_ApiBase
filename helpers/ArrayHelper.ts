@@ -35,9 +35,10 @@ export class ArrayHelper {
   }
 
   static getAllOperatorArray(array: any[], propertyName: string, values: any[], operator: string, dataType = "string") {
-    const result:any[] = [];
+    const result: any[] = [];
     values.forEach(v => {
-      const filtered = this.getAllOperator(array, propertyName, v, operator, dataType);
+      console.log(v);
+      const filtered = this.getAllOperator(array, propertyName, v, operator.replace("notIn", "notEqual").replace("in", "equals"), dataType);
       filtered.forEach(f => result.push(f));
     })
     return result;
