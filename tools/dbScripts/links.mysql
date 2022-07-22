@@ -10,7 +10,7 @@ CREATE TABLE `links` (
   `icon` varchar(45) DEFAULT NULL,
   `text` varchar(255) DEFAULT NULL,
   `sort` char(11) DEFAULT NULL,
-  `photoUpdated` datetime DEFAULT NULL,
+  `photo` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `churchId` (`churchId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
