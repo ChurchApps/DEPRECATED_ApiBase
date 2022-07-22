@@ -2,7 +2,7 @@ import { controller, httpPost, httpGet, httpDelete, requestParam } from "inversi
 import express from "express";
 import { Link } from "../models";
 import { CustomBaseController } from "./CustomBaseController";
-import { Permissions } from "../helpers";
+import { Permissions, FileHelper } from "../helpers";
 
 @controller("/links")
 export class LinkController extends CustomBaseController {
@@ -22,8 +22,15 @@ export class LinkController extends CustomBaseController {
     public async loadAll(req: express.Request, res: express.Response): Promise<any> {
         return this.actionWrapper(req, res, async (au) => {
             const category = req.query.category.toString();
-            if (category === undefined) return await this.baseRepositories.link.loadAll(au.churchId);
-            else return await this.baseRepositories.link.loadByCategory(au.churchId, category);
+            let data;
+            if (category === undefined) {
+              data = await this.baseRepositories.link.loadAll(au.churchId);
+            } else {
+              data = await this.baseRepositories.link.loadByCategory(au.churchId, category);
+            }
+
+            const results = this.baseRepositories.link.convertAllToModel(au.churchId, data);
+            return results;
         });
     }
 
@@ -34,7 +41,19 @@ export class LinkController extends CustomBaseController {
             else {
                 let links: Link[] = req.body;
                 const promises: Promise<Link>[] = [];
-                links.forEach((link) => { if (link.churchId === au.churchId) promises.push(this.baseRepositories.link.save(link)); });
+                links.forEach((link) => {
+                  if (link.churchId === au.churchId) {
+                    promises.push(
+                      this.baseRepositories.link.save(link).then(async (l) => {
+                        l.churchId = au.churchId;
+                        if (l.photo !== undefined && l.photo.startsWith("data:image/png;base64,")) {
+                          await this.savePhoto(au.churchId, l)
+                        }
+                        return link;
+                      })
+                    );
+                  }
+                });
                 links = await Promise.all(promises);
                 return this.json(links, 200);
             }
@@ -49,5 +68,15 @@ export class LinkController extends CustomBaseController {
                 await this.baseRepositories.link.delete(id, au.churchId);
             }
         });
+    }
+
+    private async savePhoto(churchId: string, link: Link) {
+      const base64 = link.photo.split(',')[1];
+      const key = "/" + churchId + "/b1/tabs/" + link.id + ".png";
+      return FileHelper.store(key, "image/png", Buffer.from(base64, 'base64')).then(async () => {
+        link.photoUpdated = new Date();
+        link.photo = key + "?dt=" + link.photoUpdated.getTime().toString();
+        await this.baseRepositories.link.save(link);
+      });
     }
 }
