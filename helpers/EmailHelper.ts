@@ -2,8 +2,29 @@ import AWS from 'aws-sdk'
 import nodemailer from 'nodemailer'
 import directTransport from 'nodemailer-direct-transport'
 import { EnvironmentBase, IEmailPayload } from '.'
+import fs from "fs";
+import path from "path";
 
 export class EmailHelper {
+
+  public static async sendTemplatedEmail(from: string, to: string, appName: string, appUrl: string, subject: string, contents: string) {
+    if (!appName) appName = "ChurchApps";
+    if (!appUrl) appUrl = "https://accounts.churchapps.org";
+
+    const template = EmailHelper.readTemplate();
+    const emailBody = template
+      .replace("{appLink}", "<a href=\"" + appUrl + "/\">" + appName + "</a>")
+      .replace("{contents}", contents);
+    await EmailHelper.sendEmail({ from, to, subject, body: emailBody });
+  }
+
+  public static readTemplate(templateFile?: string) {
+    if (!templateFile) templateFile = "EmailTemplate.html";
+    const filePath = path.join(__dirname, "../../templates/" + templateFile);
+    const buffer = fs.readFileSync(filePath);
+    const contents = buffer.toString();
+    return contents;
+  }
 
   public static sendEmail({ from, to, subject, body }: IEmailPayload) {
     return new Promise(async (resolve, reject) => {
