@@ -6,6 +6,15 @@ import { EnvironmentBase } from ".";
 export class FileHelper {
   private static rootPath = path.resolve("./content") + "/";
 
+  static list = async (filePath: string) => {
+    let result = []
+    switch (EnvironmentBase.fileStore) {
+      case "S3": result = await AwsHelper.S3List(filePath); break;
+      default: result = await FileHelper.listLocal(filePath); break;
+    }
+    return result
+  }
+
   static move = async (oldKey: string, newKey: string) => {
     switch (EnvironmentBase.fileStore) {
       case "S3": await AwsHelper.S3Move(oldKey, newKey); break;
@@ -52,4 +61,9 @@ export class FileHelper {
   private static removeLocalFolder = async (key: string) => {
     fs.rmdirSync(FileHelper.rootPath + key);
   }
+
+  private static listLocal = async (filePath: string) => {
+    return fs.readdirSync(FileHelper.rootPath + filePath);
+  }
+
 }

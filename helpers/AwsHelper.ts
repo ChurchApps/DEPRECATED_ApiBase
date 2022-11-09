@@ -88,7 +88,7 @@ export class AwsHelper {
 
   static async S3List(path: string): Promise<string[]> {
     return new Promise((resolve, reject) => {
-      this.S3().listObjectsV2({ Bucket: EnvironmentBase.s3Bucket, Prefix: path }, (error: Error, data: AWS.S3.ListObjectsV2Output) => {
+      this.S3().listObjectsV2({ Bucket: EnvironmentBase.s3Bucket, Prefix: path, MaxKeys: 100000 }, (error: Error, data: AWS.S3.ListObjectsV2Output) => {
         if (error) reject(error);
         else {
           const result: string[] = [];
