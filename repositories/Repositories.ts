@@ -1,9 +1,8 @@
-import { LinkRepository, NoteRepository, PageRepository } from ".";
+import { LinkRepository, PageRepository } from ".";
 import { SettingRepository } from "./SettingRepository";
 
 export class Repositories {
   public link: LinkRepository;
-  public note: NoteRepository;
   public page: PageRepository;
   public setting: SettingRepository;
 
@@ -16,7 +15,6 @@ export class Repositories {
 
   constructor() {
     this.link = new LinkRepository();
-    this.note = new NoteRepository();
     this.page = new PageRepository();
     this.setting = new SettingRepository();
   }
