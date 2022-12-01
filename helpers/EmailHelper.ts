@@ -8,8 +8,8 @@ import path from "path";
 export class EmailHelper {
 
   public static async sendTemplatedEmail(from: string, to: string, appName: string, appUrl: string, subject: string, contents: string) {
-    if (!appName) appName = "ChurchApps";
-    if (!appUrl) appUrl = "https://accounts.churchapps.org";
+    if (!appName) appName = "Chums";
+    if (!appUrl) appUrl = "https://chums.org";
 
     const template = EmailHelper.readTemplate();
     const emailBody = template
