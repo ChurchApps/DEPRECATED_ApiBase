@@ -10,6 +10,8 @@ export class AuthenticatedUser {
   public personId: string;
   public firstName: string;
   public lastName: string;
+  public membershipStatus?: string;
+  public groupIds?: string[];
 
   public constructor(principal: Principal) {
     this.id = principal.details.id;
@@ -20,6 +22,8 @@ export class AuthenticatedUser {
     this.personId = principal.details.personId;
     this.firstName = principal.details.firstName;
     this.lastName = principal.details.lastName;
+    this.membershipStatus = principal.details.membershipStatus;
+    this.groupIds = principal.details.groupIds;
   }
 
   public checkAccess(permission: IPermission) {
