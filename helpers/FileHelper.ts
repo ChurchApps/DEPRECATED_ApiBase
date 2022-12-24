@@ -63,7 +63,9 @@ export class FileHelper {
   }
 
   private static listLocal = async (filePath: string) => {
-    return fs.readdirSync(FileHelper.rootPath + filePath);
+    const fullPath = FileHelper.rootPath + filePath;
+    if (!fs.existsSync(fullPath)) return [];
+    else return fs.readdirSync(FileHelper.rootPath + filePath);
   }
 
 }
