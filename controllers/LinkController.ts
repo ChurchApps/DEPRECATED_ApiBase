@@ -46,9 +46,10 @@ export class LinkController extends CustomBaseController {
             promises.push(
               this.baseRepositories.link.save(link).then(async (l) => {
                 l.churchId = au.churchId;
+                /*
                 if (l.photo !== undefined && l.photo.startsWith("data:image/png;base64,")) {
                   await this.savePhoto(au.churchId, l)
-                }
+                }*/
                 return link;
               })
             );
@@ -70,6 +71,7 @@ export class LinkController extends CustomBaseController {
     });
   }
 
+  /*
   private async savePhoto(churchId: string, link: Link) {
     const base64 = link.photo.split(',')[1];
     const key = "/" + churchId + "/tabs/" + link.id + ".png";
@@ -78,4 +80,5 @@ export class LinkController extends CustomBaseController {
       await this.baseRepositories.link.save(link);
     });
   }
+  */
 }
