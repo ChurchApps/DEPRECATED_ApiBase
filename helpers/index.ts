@@ -11,4 +11,5 @@ export * from "./Permissions";
 export * from "./UniqueIdHelper";
 export * from "./EmailHelper";
 export * from "./MySqlHelper";
-export * from './PersonHelper'
+export * from './PersonHelper';
+export * from './DonationHelper';
