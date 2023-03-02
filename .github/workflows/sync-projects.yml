@@ -1,16 +1,16 @@
-name: 'Sync Projects'
+name: "Sync Projects"
 
 on:
   push:
     branches:
-      - main    
+      - main
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
   notify:
-    name: 'Notify Parent Repos'
+    name: "Notify Parent Repos"
     runs-on: ubuntu-latest
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
@@ -19,67 +19,57 @@ jobs:
         shell: bash
 
     steps:
-    - name: Notify MembershipApi
-      env:
-        CI_TOKEN: ${{ secrets.CI_TOKEN }}
-        PARENT_REPO: LiveChurchSolutions/MembershipApi
-        PARENT_BRANCH: main
-        WORKFLOW_ID: 26460202
-      run: |
-        curl -fL --retry 3 -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ env.CI_TOKEN }}" https://api.github.com/repos/${{ env.PARENT_REPO }}/actions/workflows/${{ env.WORKFLOW_ID }}/dispatches -d '{"ref":"${{ env.PARENT_BRANCH }}"}'
-    - name: Notify LessonsApi
-      env:
-        CI_TOKEN: ${{ secrets.CI_TOKEN }}
-        PARENT_REPO: LiveChurchSolutions/LessonsApi
-        PARENT_BRANCH: main
-        WORKFLOW_ID: 26460303
-      run: |
-        curl -fL --retry 3 -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ env.CI_TOKEN }}" https://api.github.com/repos/${{ env.PARENT_REPO }}/actions/workflows/${{ env.WORKFLOW_ID }}/dispatches -d '{"ref":"${{ env.PARENT_BRANCH }}"}'
-    - name: Notify MessagingApi
-      env:
-        CI_TOKEN: ${{ secrets.CI_TOKEN }}
-        PARENT_REPO: LiveChurchSolutions/MessagingApi
-        PARENT_BRANCH: main
-        WORKFLOW_ID: 26460342
-      run: |
-        curl -fL --retry 3 -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ env.CI_TOKEN }}" https://api.github.com/repos/${{ env.PARENT_REPO }}/actions/workflows/${{ env.WORKFLOW_ID }}/dispatches -d '{"ref":"${{ env.PARENT_BRANCH }}"}'
-    - name: Notify B1Api
-      env:
-        CI_TOKEN: ${{ secrets.CI_TOKEN }}
-        PARENT_REPO: LiveChurchSolutions/B1Api
-        PARENT_BRANCH: main
-        WORKFLOW_ID: 26460382
-      run: |
-        curl -fL --retry 3 -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ env.CI_TOKEN }}" https://api.github.com/repos/${{ env.PARENT_REPO }}/actions/workflows/${{ env.WORKFLOW_ID }}/dispatches -d '{"ref":"${{ env.PARENT_BRANCH }}"}'
-    - name: Notify StreamingLiveApi
-      env:
-        CI_TOKEN: ${{ secrets.CI_TOKEN }}
-        PARENT_REPO: LiveChurchSolutions/StreamingLiveApi
-        PARENT_BRANCH: main
-        WORKFLOW_ID: 26460417
-      run: |
-        curl -fL --retry 3 -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ env.CI_TOKEN }}" https://api.github.com/repos/${{ env.PARENT_REPO }}/actions/workflows/${{ env.WORKFLOW_ID }}/dispatches -d '{"ref":"${{ env.PARENT_BRANCH }}"}'
-    - name: Notify AttendanceApi
-      env:
-        CI_TOKEN: ${{ secrets.CI_TOKEN }}
-        PARENT_REPO: LiveChurchSolutions/AttendanceApi
-        PARENT_BRANCH: main
-        WORKFLOW_ID: 26460492
-      run: |
-        curl -fL --retry 3 -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ env.CI_TOKEN }}" https://api.github.com/repos/${{ env.PARENT_REPO }}/actions/workflows/${{ env.WORKFLOW_ID }}/dispatches -d '{"ref":"${{ env.PARENT_BRANCH }}"}'
-    - name: Notify GivingApi
-      env:
-        CI_TOKEN: ${{ secrets.CI_TOKEN }}
-        PARENT_REPO: LiveChurchSolutions/GivingApi
-        PARENT_BRANCH: main
-        WORKFLOW_ID: 26460556
-      run: |
-        curl -fL --retry 3 -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ env.CI_TOKEN }}" https://api.github.com/repos/${{ env.PARENT_REPO }}/actions/workflows/${{ env.WORKFLOW_ID }}/dispatches -d '{"ref":"${{ env.PARENT_BRANCH }}"}'
-    - name: Notify ReportingApi
-      env:
-        CI_TOKEN: ${{ secrets.CI_TOKEN }}
-        PARENT_REPO: LiveChurchSolutions/ReportingApi
-        PARENT_BRANCH: main
-        WORKFLOW_ID: 26460614
-      run: |
-        curl -fL --retry 3 -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ env.CI_TOKEN }}" https://api.github.com/repos/${{ env.PARENT_REPO }}/actions/workflows/${{ env.WORKFLOW_ID }}/dispatches -d '{"ref":"${{ env.PARENT_BRANCH }}"}'
+      - name: Notify MembershipApi
+        env:
+          CI_TOKEN: ${{ secrets.CI_TOKEN }}
+          PARENT_REPO: LiveChurchSolutions/MembershipApi
+          PARENT_BRANCH: main
+          WORKFLOW_ID: 26460202
+        run:
+          |
+          curl -fL --retry 3 -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ env.CI_TOKEN }}" https://api.github.com/repos/${{ env.PARENT_REPO }}/actions/workflows/${{ env.WORKFLOW_ID }}/dispatches -d '{"ref":"${{ env.PARENT_BRANCH }}"}'
+      - name: Notify LessonsApi
+        env:
+          CI_TOKEN: ${{ secrets.CI_TOKEN }}
+          PARENT_REPO: LiveChurchSolutions/LessonsApi
+          PARENT_BRANCH: main
+          WORKFLOW_ID: 26460303
+        run:
+          |
+          curl -fL --retry 3 -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ env.CI_TOKEN }}" https://api.github.com/repos/${{ env.PARENT_REPO }}/actions/workflows/${{ env.WORKFLOW_ID }}/dispatches -d '{"ref":"${{ env.PARENT_BRANCH }}"}'
+      - name: Notify MessagingApi
+        env:
+          CI_TOKEN: ${{ secrets.CI_TOKEN }}
+          PARENT_REPO: LiveChurchSolutions/MessagingApi
+          PARENT_BRANCH: main
+          WORKFLOW_ID: 26460342
+        run:
+          |
+          curl -fL --retry 3 -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ env.CI_TOKEN }}" https://api.github.com/repos/${{ env.PARENT_REPO }}/actions/workflows/${{ env.WORKFLOW_ID }}/dispatches -d '{"ref":"${{ env.PARENT_BRANCH }}"}'
+      - name: Notify AttendanceApi
+        env:
+          CI_TOKEN: ${{ secrets.CI_TOKEN }}
+          PARENT_REPO: LiveChurchSolutions/AttendanceApi
+          PARENT_BRANCH: main
+          WORKFLOW_ID: 26460492
+        run:
+          |
+          curl -fL --retry 3 -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ env.CI_TOKEN }}" https://api.github.com/repos/${{ env.PARENT_REPO }}/actions/workflows/${{ env.WORKFLOW_ID }}/dispatches -d '{"ref":"${{ env.PARENT_BRANCH }}"}'
+      - name: Notify GivingApi
+        env:
+          CI_TOKEN: ${{ secrets.CI_TOKEN }}
+          PARENT_REPO: LiveChurchSolutions/GivingApi
+          PARENT_BRANCH: main
+          WORKFLOW_ID: 26460556
+        run:
+          |
+          curl -fL --retry 3 -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ env.CI_TOKEN }}" https://api.github.com/repos/${{ env.PARENT_REPO }}/actions/workflows/${{ env.WORKFLOW_ID }}/dispatches -d '{"ref":"${{ env.PARENT_BRANCH }}"}'
+      - name: Notify ReportingApi
+        env:
+          CI_TOKEN: ${{ secrets.CI_TOKEN }}
+          PARENT_REPO: LiveChurchSolutions/ReportingApi
+          PARENT_BRANCH: main
+          WORKFLOW_ID: 26460614
+        run:
+          |
+          curl -fL --retry 3 -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ env.CI_TOKEN }}" https://api.github.com/repos/${{ env.PARENT_REPO }}/actions/workflows/${{ env.WORKFLOW_ID }}/dispatches -d '{"ref":"${{ env.PARENT_BRANCH }}"}'
