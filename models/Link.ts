@@ -10,4 +10,5 @@ export class Link {
   icon: string;
   text: string;
   sort: number;
+  parentId?:string;
 }
