@@ -14,4 +14,5 @@ export class FormSubmission {
     public form?: Form;
     public questions?: Question[];
     public answers?: Answer[];
+    public formName?: string;
 }
