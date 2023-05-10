@@ -15,4 +15,5 @@ export class FormSubmission {
     public questions?: Question[];
     public answers?: Answer[];
     public formName?: string;
+    public sendEmail?: boolean;
 }
