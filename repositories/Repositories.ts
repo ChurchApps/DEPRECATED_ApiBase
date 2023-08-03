@@ -1,8 +1,4 @@
-import { SettingRepository } from "./SettingRepository";
-
 export class Repositories {
-  public setting: SettingRepository;
-
 
   private static _current: Repositories = null;
   public static getCurrent = () => {
@@ -10,7 +6,4 @@ export class Repositories {
     return Repositories._current;
   }
 
-  constructor() {
-    this.setting = new SettingRepository();
-  }
 }
