@@ -1,18 +1,14 @@
 import { BaseHttpController } from "inversify-express-utils";
-import { Repositories } from "../repositories";
 import express from "express";
 import { LoggingHelper } from "../helpers/LoggingHelper";
 import { AuthenticatedUser, Principal } from "../auth"
 
-
 export class CustomBaseController extends BaseHttpController {
 
-    public baseRepositories: Repositories;
     public logger: LoggingHelper;
 
     constructor() {
         super()
-        this.baseRepositories = Repositories.getCurrent();
         this.logger = LoggingHelper.getCurrent();
     }
 
