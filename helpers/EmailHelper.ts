@@ -7,11 +7,11 @@ import path from "path";
 
 export class EmailHelper {
 
-  public static async sendTemplatedEmail(from: string, to: string, appName: string, appUrl: string, subject: string, contents: string) {
+  public static async sendTemplatedEmail(from: string, to: string, appName: string, appUrl: string, subject: string, contents: string, fromAnonChurch: boolean = false) {
     if (!appName) appName = "Chums";
     if (!appUrl) appUrl = "https://chums.org";
 
-    const template = EmailHelper.readTemplate();
+    const template = EmailHelper.readTemplate(fromAnonChurch === true ? "ChurchEmailTemplate.html" : undefined);
     const emailBody = template
       .replace("{appLink}", "<a href=\"" + appUrl + "/\">" + appName + "</a>")
       .replace("{contents}", contents);
